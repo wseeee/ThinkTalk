@@ -1,0 +1,28 @@
+Name: applet-api
+Host: 0.0.0.0
+Port: 8888
+
+Auth:
+    AccessSecret: ThinkTalk
+    AccessExpire: 604800
+    RefreshSecret: ThinkTalk
+    RefreshExpire: 2592000
+    RefreshAfter: 604800
+UserRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: user.rpc
+        Advertise: 101.42.34.232:8080
+    NonBlock: true
+LikeRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: like.rpc
+    NonBlock: true
+Redis :
+    Host: 101.42.34.232:6379
+    Pass: dsw123456
+    Type: node
+    DB: 0

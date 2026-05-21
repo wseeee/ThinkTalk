@@ -1,0 +1,17 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+  - 101.42.34.232:2379
+  Key: user.rpc
+DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_user?parseTime=true
+CacheRedis:
+  - Host: 101.42.34.232:6379
+    Pass: dsw123456
+    Type: node
+    DB : 0
+BizRedis:
+  Host: 101.42.34.232:6379
+  Pass: dsw123456
+  Type: node
+  DB : 0

@@ -1,0 +1,15 @@
+Name: article.rpc
+ListenOn: 0.0.0.0:9090
+Etcd:
+  Hosts:
+  - 101.42.34.232:2379
+  Key: article.rpc
+DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_article?parseTime=true&loc=Local
+CacheRedis:
+  - Host: 101.42.34.232:6379
+    Pass: dsw123456
+    Type: node
+BizRedis:
+  Host: 101.42.34.232:6379
+  Pass: dsw123456
+  Type: node

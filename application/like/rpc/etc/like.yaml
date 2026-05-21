@@ -1,0 +1,17 @@
+Name: like.rpc
+ListenOn: 0.0.0.0:8080
+Mode: test
+Etcd:
+  Hosts:
+  - 101.42.34.232:2379
+  Key: like.rpc
+KqPusherConf:
+  Brokers:
+    - 101.42.34.232:9092
+  Topic: thinktalk_like
+Mysql:
+  DataSource: root:123456@tcp(101.42.34.232:3306)/thinktalk_like?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+  - Host: 101.42.34.232:6379
+    Type: node
+    Pass: dsw123456

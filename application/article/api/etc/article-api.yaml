@@ -1,0 +1,30 @@
+Name: article-api
+Host: 0.0.0.0
+Port: 80
+Auth:
+  AccessSecret: ThinkTalk
+  AccessExpire: 604800
+  RefreshSecret: ThinkTalk
+  RefreshExpire: 2592000
+  RefreshAfter: 604800
+
+MinIO:
+  Endpoint: 101.42.34.232:9000
+  AccessKeyID: minioadmin
+  AccessKeySecret: "dsw123456"
+  BucketName: article
+  Location: zh-east-1
+  UseSSL: false
+
+ArticleRPC:
+  Etcd:
+    Hosts:
+      - 101.42.34.232:2379
+    Key: article.rpc
+  NonBlock: true
+UserRPC:
+  Etcd:
+    Hosts:
+      - 101.42.34.232:2379
+    Key: user.rpc
+  NonBlock: true
