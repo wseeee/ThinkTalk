@@ -2,11 +2,13 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"ThinkTalk/application/article/rpc/internal/svc"
 	"ThinkTalk/application/article/rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type ArticleDetailLogic struct {
@@ -24,7 +26,23 @@ func NewArticleDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Art
 }
 
 func (l *ArticleDetailLogic) ArticleDetail(in *pb.ArticleDetailRequest) (*pb.ArticleDetailResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &pb.ArticleDetailResponse{}, nil
+	article, err := l.svcCtx.ArticleMOdel.FindOne(l.ctx, in.ArticleId)
+	if err != nil {
+		if errors.Is(err, sqlx.ErrNotFound) {
+			return &pb.ArticleDetailResponse{}, nil
+		}
+		return nil, err
+	}
+	return &pb.ArticleDetailResponse{
+		Article: &pb.ArticleItem{
+			Id:          article.Id,
+			Title:       article.Title,
+			Content:     article.Content,
+			Description: article.Description,
+			Cover:       article.Cover,
+			AuthorId:    article.AuthorId,
+			LikeCount:   article.LikeNum,
+			PublishTime: article.PublishTime.Unix(),
+		},
+	}, nil
 }

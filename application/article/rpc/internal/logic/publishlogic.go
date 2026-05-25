@@ -3,7 +3,7 @@ package logic
 import (
 	"ThinkTalk/application/article/rpc/internal/code"
 	"ThinkTalk/application/article/rpc/internal/model"
-	"ThinkTalk/application/article/rpc/types"
+	"ThinkTalk/application/article/rpc/internal/types"
 	"context"
 	"strconv"
 	"time"
@@ -39,7 +39,7 @@ func (l *PublishLogic) Publish(in *pb.PublishRequest) (*pb.PublishResponse, erro
 		return nil, code.ArticleContentCantEmpty
 	}
 	ret, err := l.svcCtx.ArticleMOdel.Insert(l.ctx, &model.Article{
-		AuthorId:    uint64(in.UserId),
+		AuthorId:    in.UserId,
 		Title:       in.Title,
 		Content:     in.Content,
 		Description: in.Description,

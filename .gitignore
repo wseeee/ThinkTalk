@@ -29,6 +29,9 @@ Thumbs.db
 .env
 *.local.yaml
 .claude
+.md
+
+
 # Logs
 *.log
 
