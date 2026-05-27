@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package service;
+option go_package="./pb";
+
+service Message {
+  // 通知列表
+  rpc NotificationList (NotificationListRequest) returns (NotificationListResponse);
+  // 未读计数
+  rpc UnreadCount (UnreadCountRequest) returns (UnreadCountResponse);
+  // 标记已读
+  rpc MarkRead (MarkReadRequest) returns (MarkReadResponse);
+  // 全部已读
+  rpc MarkAllRead (MarkAllReadRequest) returns (MarkAllReadResponse);
+}
+
+// -------------------- 通知列表 --------------------
+
+message NotificationListRequest {
+  int64 userId = 1;   // 用户ID
+  int64 cursor = 2;   // 游标
+  int64 pageSize = 3;  // 页大小
+  int32 type = 4;     // 通知类型 (0表示全部)
+}
+
+message NotificationItem {
+  int64 id = 1;            // 通知ID
+  int32 type = 2;          // 通知类型
+  string title = 3;        // 通知标题
+  string content = 4;      // 通知内容
+  int64 refId = 5;         // 关联资源ID
+  string bizId = 6;        // 业务ID
+  int64 triggerUserId = 7; // 触发用户ID
+  bool isRead = 8;         // 是否已读
+  int64 createTime = 9;    // 创建时间
+}
+
+message NotificationListResponse {
+  repeated NotificationItem items = 1; // 通知列表
+  int64 cursor = 2;                    // 下一页游标
+  bool isEnd = 3;                      // 是否最后一页
+}
+
+// -------------------- 未读计数 --------------------
+
+message UnreadCountRequest {
+  int64 userId = 1; // 用户ID
+}
+
+message UnreadCountResponse {
+  int64 total = 1;               // 总未读数
+  map<int32, int64> typeCounts = 2; // 各类型未读数
+}
+
+// -------------------- 标记已读 --------------------
+
+message MarkReadRequest {
+  int64 userId = 1;         // 用户ID
+  int64 notificationId = 2; // 通知ID
+}
+
+message MarkReadResponse {
+}
+
+// -------------------- 全部已读 --------------------
+
+message MarkAllReadRequest {
+  int64 userId = 1; // 用户ID
+  int32 type = 2;   // 通知类型 (0表示全部类型)
+}
+
+message MarkAllReadResponse {
+}

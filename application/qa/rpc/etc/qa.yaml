@@ -1,0 +1,26 @@
+Name: qa.rpc
+ListenOn: 0.0.0.0:8090
+Etcd:
+  Hosts:
+  - 101.42.34.232:2379
+  Key: qa.rpc
+DB:
+  DataSource: "root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_qa?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+Es:
+  Addresses:
+    - http://localhost:9200/
+  Username:
+  Password:
+BizRedis:
+  Host: 101.42.34.232:6379
+  Pass: dsw123456
+  Type: node
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9106
+  Path: /metrics
+Telemetry:
+  Endpoint: http://127.0.0.1:14268/api/traces

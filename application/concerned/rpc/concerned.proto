@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package service;
+option go_package="./pb";
+
+service Concerned {
+  // 收藏
+  rpc AddConcerned (AddConcernedRequest) returns (AddConcernedResponse);
+  // 取消收藏
+  rpc CancelConcerned (CancelConcernedRequest) returns (CancelConcernedResponse);
+  // 是否已收藏
+  rpc IsConcerned (IsConcernedRequest) returns (IsConcernedResponse);
+  // 收藏列表
+  rpc ConcernedList (ConcernedListRequest) returns (ConcernedListResponse);
+  // 收藏计数
+  rpc ConcernedCount (ConcernedCountRequest) returns (ConcernedCountResponse);
+}
+
+// -------------------- 收藏 --------------------
+
+message AddConcernedRequest {
+  string bizId = 1;   // 业务ID
+  int64 objId = 2;    // 收藏对象id
+  int64 userId = 3;   // 用户ID
+}
+
+message AddConcernedResponse {
+}
+
+// -------------------- 取消收藏 --------------------
+
+message CancelConcernedRequest {
+  string bizId = 1;   // 业务ID
+  int64 objId = 2;    // 收藏对象id
+  int64 userId = 3;   // 用户ID
+}
+
+message CancelConcernedResponse {
+}
+
+// -------------------- 是否已收藏 --------------------
+
+message IsConcernedRequest {
+  string bizId = 1;  // 业务ID
+  int64 objId = 2;   // 收藏对象id
+  int64 userId = 3;  // 用户ID
+}
+
+message IsConcernedResponse {
+  bool isConcerned = 1; // 是否已收藏
+}
+
+// -------------------- 收藏列表 --------------------
+
+message ConcernedListRequest {
+  int64 userId = 1;   // 用户ID
+  string bizId = 2;   // 业务ID (空表示全部)
+  int64 cursor = 3;   // 游标
+  int64 pageSize = 4; // 页大小
+}
+
+message ConcernedItem {
+  int64 id = 1;         // 记录ID
+  string bizId = 2;     // 业务ID
+  int64 objId = 3;      // 收藏对象id
+  int64 createTime = 4; // 收藏时间
+}
+
+message ConcernedListResponse {
+  repeated ConcernedItem items = 1; // 收藏列表
+  int64 cursor = 2;                 // 下一页游标
+  bool isEnd = 3;                   // 是否最后一页
+}
+
+// -------------------- 收藏计数 --------------------
+
+message ConcernedCountRequest {
+  string bizId = 1;  // 业务ID
+  int64 objId = 2;   // 收藏对象id
+}
+
+message ConcernedCountResponse {
+  int64 concernedNum = 1; // 收藏数
+}

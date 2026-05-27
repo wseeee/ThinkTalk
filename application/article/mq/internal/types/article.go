@@ -20,6 +20,7 @@ type CanalArticleMsg struct {
 		Content     string `json:"content"`
 		Description string `json:"description"`
 		AuthorId    string `json:"author_id"`
+		Cover       string `json:"cover"`
 		Status      string `json:"status"`
 		CommentNum  string `json:"comment_num"`
 		LikeNum     string `json:"like_num"`
@@ -38,6 +39,7 @@ type ArticleEsMsg struct {
 	Title       string  `json:"title"`
 	Content     string  `json:"content"`
 	Description string  `json:"description"`
+	Cover       string  `json:"cover"`
 	AuthorId    int64   `json:"author_id"`
 	AuthorName  string  `json:"author_name"`
 	Status      int     `json:"status"`

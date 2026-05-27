@@ -63,4 +63,104 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithSignature(serverCtx.Config.Signature),
 		rest.WithPrefix("/v1/like"),
 	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/follow",
+				Handler: FollowHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/unfollow",
+				Handler: UnFollowHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: FollowListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/fans",
+				Handler: FansListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1/follow"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: NotificationListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/unread",
+				Handler: UnreadCountHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/read",
+				Handler: MarkReadHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/readall",
+				Handler: MarkAllReadHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v1/message"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/add",
+				Handler: ConcernedAddHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/cancel",
+				Handler: ConcernedCancelHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/check",
+				Handler: ConcernedCheckHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: ConcernedListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1/concerned"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/info",
+				Handler: MemberInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/right",
+				Handler: MemberRightHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v1/member"),
+	)
 }

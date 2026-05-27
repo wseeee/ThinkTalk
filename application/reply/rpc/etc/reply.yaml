@@ -1,0 +1,25 @@
+Name: reply.rpc
+ListenOn: 0.0.0.0:8083
+Etcd:
+  Hosts:
+  - 101.42.34.232:2379
+  Key: reply.rpc
+KqPusherConf:
+  Brokers:
+    - 101.42.34.232:9092
+  Topic: thinktalk_reply
+DB:
+  DataSource: "root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_reply?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+BizRedis:
+  Host: 101.42.34.232:6379
+  Pass: dsw123456
+  Type: node
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9102
+  Path: /metrics
+Telemetry:
+  Endpoint: http://127.0.0.1:14268/api/traces

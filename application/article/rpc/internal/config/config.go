@@ -11,4 +11,9 @@ type Config struct {
 	DataSource string
 	CacheRedis cache.CacheConf
 	BizRedis   redis.RedisConf
+	Es         struct {
+		Addresses []string
+		Username  string
+		Password  string
+	}
 }

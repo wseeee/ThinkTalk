@@ -50,3 +50,27 @@ type PublishResponse struct {
 type UploadCoverResponse struct {
 	CoverUrl string `json:"cover_url"`
 }
+
+type SearchRequest struct {
+	Keyword  string `form:"keyword"`
+	Cursor   int64  `form:"cursor"`
+	PageSize int64  `form:"page_size"`
+}
+
+type SearchInfo struct {
+	ArticleId   int64  `json:"article_id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Cover       string `json:"cover"`
+	AuthorId    int64  `json:"author_id"`
+	AuthorName  string `json:"author_name"`
+	LikeNum     int64  `json:"like_num"`
+	CommentNum  int64  `json:"comment_num"`
+	PublishTime string `json:"publish_time"`
+}
+
+type SearchResponse struct {
+	Articles []SearchInfo `json:"articles"`
+	Cursor   int64        `json:"cursor"`
+	IsEnd    bool         `json:"is_end"`
+}

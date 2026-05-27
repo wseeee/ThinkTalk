@@ -1,5 +1,5 @@
-Name: service.rpc
-ListenOn: 0.0.0.0:8080
+Name: follow.rpc
+ListenOn: 0.0.0.0:8081
 Etcd:
   Hosts:
   - 101.42.34.232:2379
@@ -11,7 +11,7 @@ DB:
   ConnMaxLifetime: 3600
 BizRedis:
   Host: 101.42.34.232:6379
-  Pass:
+  Pass: dsw123456
   Type: node
 Prometheus:
   Host: 0.0.0.0

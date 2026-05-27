@@ -62,6 +62,144 @@ type IsThumbupRequest struct {
 }
 
 type IsThumbupResponse struct {
-	LikeType int32 `json:"like_type"`
+	LikeType    int32 `json:"like_type"`
 	ThumbupTime int64 `json:"thumbup_time"`
+}
+
+type FollowRequest struct {
+	FollowedUserId int64 `json:"followed_user_id"`
+}
+
+type FollowResponse struct{}
+
+type UnfollowRequest struct {
+	FollowedUserId int64 `json:"followed_user_id"`
+}
+
+type UnfollowResponse struct{}
+
+type FollowListRequest struct {
+	Cursor   int64 `form:"cursor"`
+	PageSize int64 `form:"page_size"`
+}
+
+type FollowItem struct {
+	Id             int64 `json:"id"`
+	FollowedUserId int64 `json:"followed_user_id"`
+	CreateTime     int64 `json:"create_time"`
+	FansCount      int64 `json:"fans_count"`
+}
+
+type FollowListResponse struct {
+	Items  []*FollowItem `json:"items"`
+	Cursor int64         `json:"cursor"`
+	IsEnd  bool          `json:"is_end"`
+}
+
+type FansListRequest struct {
+	Cursor   int64 `form:"cursor"`
+	PageSize int64 `form:"page_size"`
+}
+
+type FansListResponse struct {
+	Items  []*FollowItem `json:"items"`
+	Cursor int64         `json:"cursor"`
+	IsEnd  bool          `json:"is_end"`
+}
+
+type NotificationRequest struct {
+	NotifType int32 `form:"notif_type"`
+	Cursor    int64 `form:"cursor"`
+	PageSize  int64 `form:"page_size"`
+}
+
+type NotificationItem struct {
+	Id            int64  `json:"id"`
+	Type          int32  `json:"type"`
+	Title         string `json:"title"`
+	Content       string `json:"content"`
+	IsRead        bool   `json:"is_read"`
+	TriggerUserId int64  `json:"trigger_user_id"`
+	RefId         int64  `json:"ref_id"`
+	CreateTime    int64  `json:"create_time"`
+}
+
+type NotificationResponse struct {
+	Items  []*NotificationItem `json:"items"`
+	Cursor int64               `json:"cursor"`
+	IsEnd  bool                `json:"is_end"`
+}
+
+type UnreadCountResponse struct {
+	Total      int64           `json:"total"`
+	TypeCounts map[int32]int64 `json:"type_counts"`
+}
+
+type MarkReadRequest struct {
+	NotificationId int64 `json:"notification_id"`
+}
+
+type MarkReadResponse struct{}
+
+type MarkAllReadRequest struct {
+	NotifType int32 `json:"notif_type"`
+}
+
+type ConcernedAddRequest struct {
+	BizId string `json:"biz_id"`
+	ObjId int64  `json:"obj_id"`
+}
+
+type ConcernedAddResponse struct{}
+
+type ConcernedCancelRequest struct {
+	BizId string `json:"biz_id"`
+	ObjId int64  `json:"obj_id"`
+}
+
+type ConcernedCancelResponse struct{}
+
+type ConcernedCheckRequest struct {
+	BizId string `form:"biz_id"`
+	ObjId int64  `form:"obj_id"`
+}
+
+type ConcernedCheckResponse struct {
+	IsConcerned bool `json:"is_concerned"`
+}
+
+type ConcernedListRequest struct {
+	BizId    string `form:"biz_id"`
+	Cursor   int64  `form:"cursor"`
+	PageSize int64  `form:"page_size"`
+}
+
+type ConcernedItem struct {
+	Id         int64  `json:"id"`
+	BizId      string `json:"biz_id"`
+	ObjId      int64  `json:"obj_id"`
+	CreateTime int64  `json:"create_time"`
+}
+
+type ConcernedListResponse struct {
+	Items  []*ConcernedItem `json:"items"`
+	Cursor int64            `json:"cursor"`
+	IsEnd  bool             `json:"is_end"`
+}
+
+type MemberInfoResponse struct {
+	UserId     int64  `json:"user_id"`
+	Level      int32  `json:"level"`
+	LevelName  string `json:"level_name"`
+	ExpireTime int64  `json:"expire_time"`
+	Status     int32  `json:"status"`
+}
+
+type MemberRightRequest struct {
+	RightKey string `form:"right_key"`
+}
+
+type MemberRightResponse struct {
+	HasRight bool  `json:"has_right"`
+	Level    int32 `json:"level"`
 }

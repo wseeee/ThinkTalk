@@ -21,6 +21,30 @@ LikeRpc:
             - 101.42.34.232:2379
         Key: like.rpc
     NonBlock: true
+FollowRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: follow.rpc
+    NonBlock: true
+MessageRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: message.rpc
+    NonBlock: true
+ConcernedRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: concerned.rpc
+    NonBlock: true
+MemberRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: member.rpc
+    NonBlock: true
 Redis :
     Host: 101.42.34.232:6379
     Pass: dsw123456

@@ -1,0 +1,18 @@
+Name: chat-api
+Host: 0.0.0.0
+Port: 8087
+
+Auth:
+  AccessSecret: ThinkTalk
+  AccessExpire: 604800
+
+ChatRpc:
+  Etcd:
+    Hosts:
+      - 101.42.34.232:2379
+    Key: chat.rpc
+
+BizRedis:
+  Host: 101.42.34.232:6379
+  Pass: dsw123456
+  Type: node

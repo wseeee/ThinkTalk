@@ -1,0 +1,12 @@
+Name: member.mq
+
+KqConsumerConf:
+  Brokers:
+    - 101.42.34.232:9092
+  Topic: thinktalk_member
+  Group: member-consumer
+  Consumers: 1
+  Processors: 1
+
+Mysql:
+  DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_member?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai

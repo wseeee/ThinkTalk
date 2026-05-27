@@ -8,6 +8,7 @@ service Article {
   rpc Articles(ArticlesRequest) returns (ArticlesResponse);
   rpc ArticleDelete(ArticleDeleteRequest) returns (ArticleDeleteResponse);
   rpc ArticleDetail(ArticleDetailRequest) returns (ArticleDetailResponse);
+  rpc SearchArticles(SearchRequest) returns (SearchResponse);
 }
 
 message PublishRequest {
@@ -63,4 +64,28 @@ message ArticleDetailRequest {
 
 message ArticleDetailResponse {
   ArticleItem article = 1;
+}
+
+message SearchRequest {
+  string keyword = 1;  // 搜索关键词
+  int64 cursor = 2;    // 游标
+  int64 pageSize = 3;  // 页大小
+}
+
+message SearchItem {
+  int64 articleId = 1;
+  string title = 2;
+  string description = 3;
+  string cover = 4;
+  int64 authorId = 5;
+  string authorName = 6;
+  int64 likeNum = 7;
+  int64 commentNum = 8;
+  string publishTime = 9;
+}
+
+message SearchResponse {
+  repeated SearchItem items = 1;
+  int64 cursor = 2;
+  bool isEnd = 3;
 }

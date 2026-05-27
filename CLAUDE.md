@@ -31,11 +31,11 @@ go vet ./...
 
 ### Services (under `application/`)
 
-| Service | Type | Port | Role |
-|---------|------|------|------|
-| `applet` | REST API | 8888 | Client-facing gateway (registration, login, verification codes, user info) |
-| `user/rpc` | gRPC | 8080 | User domain service (Register, FindById, FindByMobile, SendSms) |
-| `article` | REST API | - | Article service (scaffolded, minimal) |
+| Service    | Type     | Port | Role                                                                       |
+| ---------- | -------- | ---- | -------------------------------------------------------------------------- |
+| `applet`   | REST API | 8888 | Client-facing gateway (registration, login, verification codes, user info) |
+| `user/rpc` | gRPC     | 8080 | User domain service (Register, FindById, FindByMobile, SendSms)            |
+| `article`  | REST API | -    | Article service (scaffolded, minimal)                                      |
 
 Placeholder dirs exist for: `chat`, `concerned`, `member`, `message`, `qa`.
 
@@ -83,6 +83,7 @@ goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 Generated code lives alongside handwritten code. The `internal/handler/` and `internal/types/` directories are typically goctl-generated; `internal/logic/` is where custom business logic goes.
 
 <!-- superpowers-zh:begin (do not edit between these markers) -->
+
 # Superpowers-ZH 中文增强版
 
 本项目已安装 superpowers-zh 技能框架（20 个 skills）。
@@ -124,4 +125,5 @@ Skills 位于 `.claude/skills/` 目录，每个 skill 有独立的 `SKILL.md` �
 当任务匹配某个 skill 时，使用 `Skill` 工具加载对应 skill 并严格遵循其流程。绝不要用 Read 工具读取 SKILL.md 文件。
 
 如果你认为哪怕只有 1% 的可能性某个 skill 适用于你正在做的事情，你必须调用该 skill 检查。
+
 <!-- superpowers-zh:end -->

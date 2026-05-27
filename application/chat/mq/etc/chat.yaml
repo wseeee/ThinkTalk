@@ -1,0 +1,16 @@
+Name: mq
+KqConsumerConf:
+  Name: chat-kq-consumer
+  Brokers:
+    - 101.42.34.232:9092
+  Group: group-thinktalk-chat
+  Topic: thinktalk_chat
+  Offset: last
+  Consumers: 2
+  Processors: 2
+Mysql:
+  DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_chat?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+    - Host: 101.42.34.232:6379
+      Type: node
+      Pass: dsw123456

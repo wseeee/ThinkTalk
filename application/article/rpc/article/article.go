@@ -22,12 +22,15 @@ type (
 	ArticlesResponse      = pb.ArticlesResponse
 	PublishRequest        = pb.PublishRequest
 	PublishResponse       = pb.PublishResponse
+	SearchRequest         = pb.SearchRequest
+	SearchResponse        = pb.SearchResponse
 
 	Article interface {
 		Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*PublishResponse, error)
 		Articles(ctx context.Context, in *ArticlesRequest, opts ...grpc.CallOption) (*ArticlesResponse, error)
 		ArticleDelete(ctx context.Context, in *ArticleDeleteRequest, opts ...grpc.CallOption) (*ArticleDeleteResponse, error)
 		ArticleDetail(ctx context.Context, in *ArticleDetailRequest, opts ...grpc.CallOption) (*ArticleDetailResponse, error)
+		SearchArticles(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
 	}
 
 	defaultArticle struct {
@@ -59,4 +62,9 @@ func (m *defaultArticle) ArticleDelete(ctx context.Context, in *ArticleDeleteReq
 func (m *defaultArticle) ArticleDetail(ctx context.Context, in *ArticleDetailRequest, opts ...grpc.CallOption) (*ArticleDetailResponse, error) {
 	client := pb.NewArticleClient(m.cli.Conn())
 	return client.ArticleDetail(ctx, in, opts...)
+}
+
+func (m *defaultArticle) SearchArticles(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
+	client := pb.NewArticleClient(m.cli.Conn())
+	return client.SearchArticles(ctx, in, opts...)
 }

@@ -9,6 +9,11 @@ CacheRedis:
   - Host: 101.42.34.232:6379
     Pass: dsw123456
     Type: node
+Es:
+  Addresses:
+    - http://localhost:9200/
+  Username:
+  Password:
 BizRedis:
   Host: 101.42.34.232:6379
   Pass: dsw123456

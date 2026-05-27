@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Article_Publish_FullMethodName       = "/pb.Article/Publish"
-	Article_Articles_FullMethodName      = "/pb.Article/Articles"
-	Article_ArticleDelete_FullMethodName = "/pb.Article/ArticleDelete"
-	Article_ArticleDetail_FullMethodName = "/pb.Article/ArticleDetail"
+	Article_Publish_FullMethodName        = "/pb.Article/Publish"
+	Article_Articles_FullMethodName       = "/pb.Article/Articles"
+	Article_ArticleDelete_FullMethodName  = "/pb.Article/ArticleDelete"
+	Article_ArticleDetail_FullMethodName  = "/pb.Article/ArticleDetail"
+	Article_SearchArticles_FullMethodName = "/pb.Article/SearchArticles"
 )
 
 // ArticleClient is the client API for Article service.
@@ -33,6 +34,7 @@ type ArticleClient interface {
 	Articles(ctx context.Context, in *ArticlesRequest, opts ...grpc.CallOption) (*ArticlesResponse, error)
 	ArticleDelete(ctx context.Context, in *ArticleDeleteRequest, opts ...grpc.CallOption) (*ArticleDeleteResponse, error)
 	ArticleDetail(ctx context.Context, in *ArticleDetailRequest, opts ...grpc.CallOption) (*ArticleDetailResponse, error)
+	SearchArticles(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error)
 }
 
 type articleClient struct {
@@ -83,6 +85,16 @@ func (c *articleClient) ArticleDetail(ctx context.Context, in *ArticleDetailRequ
 	return out, nil
 }
 
+func (c *articleClient) SearchArticles(ctx context.Context, in *SearchRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchResponse)
+	err := c.cc.Invoke(ctx, Article_SearchArticles_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArticleServer is the server API for Article service.
 // All implementations must embed UnimplementedArticleServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type ArticleServer interface {
 	Articles(context.Context, *ArticlesRequest) (*ArticlesResponse, error)
 	ArticleDelete(context.Context, *ArticleDeleteRequest) (*ArticleDeleteResponse, error)
 	ArticleDetail(context.Context, *ArticleDetailRequest) (*ArticleDetailResponse, error)
+	SearchArticles(context.Context, *SearchRequest) (*SearchResponse, error)
 	mustEmbedUnimplementedArticleServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedArticleServer) ArticleDelete(context.Context, *ArticleDeleteR
 }
 func (UnimplementedArticleServer) ArticleDetail(context.Context, *ArticleDetailRequest) (*ArticleDetailResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ArticleDetail not implemented")
+}
+func (UnimplementedArticleServer) SearchArticles(context.Context, *SearchRequest) (*SearchResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SearchArticles not implemented")
 }
 func (UnimplementedArticleServer) mustEmbedUnimplementedArticleServer() {}
 func (UnimplementedArticleServer) testEmbeddedByValue()                 {}
@@ -206,6 +222,24 @@ func _Article_ArticleDetail_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Article_SearchArticles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleServer).SearchArticles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Article_SearchArticles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleServer).SearchArticles(ctx, req.(*SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Article_ServiceDesc is the grpc.ServiceDesc for Article service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var Article_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ArticleDetail",
 			Handler:    _Article_ArticleDetail_Handler,
+		},
+		{
+			MethodName: "SearchArticles",
+			Handler:    _Article_SearchArticles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

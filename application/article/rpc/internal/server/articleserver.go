@@ -42,3 +42,8 @@ func (s *ArticleServer) ArticleDetail(ctx context.Context, in *pb.ArticleDetailR
 	l := logic.NewArticleDetailLogic(ctx, s.svcCtx)
 	return l.ArticleDetail(in)
 }
+
+func (s *ArticleServer) SearchArticles(ctx context.Context, in *pb.SearchRequest) (*pb.SearchResponse, error) {
+	l := logic.NewSearchArticlesLogic(ctx, s.svcCtx)
+	return l.SearchArticles(in)
+}

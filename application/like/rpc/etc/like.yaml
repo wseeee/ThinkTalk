@@ -1,5 +1,5 @@
 Name: like.rpc
-ListenOn: 0.0.0.0:8080
+ListenOn: 0.0.0.0:8082
 Mode: test
 Etcd:
   Hosts:

@@ -7,6 +7,7 @@ require (
 	github.com/elastic/go-elasticsearch/v8 v8.19.6
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/golang/protobuf v1.5.4
+	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674
 	github.com/minio/minio-go/v7 v7.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/zeromicro/go-queue v1.2.2
@@ -16,6 +17,8 @@ require (
 	golang.org/x/sync v0.19.0
 	google.golang.org/grpc v1.79.3
 	google.golang.org/protobuf v1.36.11
+	gorm.io/driver/mysql v1.6.0
+	gorm.io/gorm v1.31.1
 )
 
 require (
@@ -109,8 +112,6 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/mysql v1.6.0 // indirect
-	gorm.io/gorm v1.31.1 // indirect
 	k8s.io/api v0.34.3 // indirect
 	k8s.io/apimachinery v0.34.3 // indirect
 	k8s.io/client-go v0.34.3 // indirect

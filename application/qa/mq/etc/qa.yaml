@@ -1,0 +1,21 @@
+Name: mq
+KqConsumerConf:
+  Name: qa-kq-consumer
+  Brokers:
+    - 101.42.34.232:9092
+  Group: group-thinktalk-qa
+  Topic: thinktalk_qa
+  Offset: last
+  Consumers: 1
+  Processors: 1
+Mysql:
+  DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_qa?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+Es:
+  Addresses:
+    - http://localhost:9200/
+  Username:
+  Password:
+CacheRedis:
+    - Host: 101.42.34.232:6379
+      Type: node
+      Pass: dsw123456

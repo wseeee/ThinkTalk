@@ -1,0 +1,21 @@
+Name: message.rpc
+ListenOn: 0.0.0.0:8085
+Etcd:
+  Hosts:
+  - 101.42.34.232:2379
+  Key: message.rpc
+DB:
+  DataSource: "root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_message?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+BizRedis:
+  Host: 101.42.34.232:6379
+  Pass: dsw123456
+  Type: node
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9104
+  Path: /metrics
+Telemetry:
+  Endpoint: http://127.0.0.1:14268/api/traces
