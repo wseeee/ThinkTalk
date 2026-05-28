@@ -1,0 +1,13 @@
+Name: qa-api
+Host: 0.0.0.0
+Port: 8890
+
+Auth:
+    AccessSecret: ThinkTalk
+    AccessExpire: 604800
+QaRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: qa.rpc
+    NonBlock: true
