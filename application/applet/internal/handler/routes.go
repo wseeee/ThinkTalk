@@ -141,6 +141,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/list",
 				Handler: ConcernedListHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/count",
+				Handler: ConcernedCountHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithSignature(serverCtx.Config.Signature),
@@ -159,8 +164,75 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/right",
 				Handler: MemberRightHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/orders",
+				Handler: MemberOrderListHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/v1/member"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/upgrade",
+				Handler: UpgradeMemberHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1/member"),
+	)
+
+	// Tag 读操作 — JWT
+	server.AddRoutes(
+		[]rest.Route{
+			{Method: http.MethodGet, Path: "/detail", Handler: TagDetailHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/list", Handler: TagListHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/hot", Handler: HotTagsHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/resource/list", Handler: ResourcesByTagHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/resource/tags", Handler: TagsByResourceHandler(serverCtx)},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v1/tag"),
+	)
+
+	// Tag 写操作 — JWT + Signature
+	server.AddRoutes(
+		[]rest.Route{
+			{Method: http.MethodPost, Path: "/create", Handler: TagCreateHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/update", Handler: TagUpdateHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/delete", Handler: TagDeleteHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/resource/add", Handler: TagResourceHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/resource/remove", Handler: UntagResourceHandler(serverCtx)},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1/tag"),
+	)
+
+	// Reply 读操作 — JWT
+	server.AddRoutes(
+		[]rest.Route{
+			{Method: http.MethodGet, Path: "/detail", Handler: ReplyDetailHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/list", Handler: ReplyListHandler(serverCtx)},
+			{Method: http.MethodGet, Path: "/count", Handler: ReplyCountHandler(serverCtx)},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/v1/reply"),
+	)
+
+	// Reply 写操作 — JWT + Signature
+	server.AddRoutes(
+		[]rest.Route{
+			{Method: http.MethodPost, Path: "/create", Handler: ReplyCreateHandler(serverCtx)},
+			{Method: http.MethodPost, Path: "/delete", Handler: ReplyDeleteHandler(serverCtx)},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithSignature(serverCtx.Config.Signature),
+		rest.WithPrefix("/v1/reply"),
 	)
 }
