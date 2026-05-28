@@ -740,3 +740,33 @@ QaRpc:
 - MemberOrderList: userId 从 JWT 获取，cursor/pageSize 从 query 获取
 
 无多写、漏写字段。
+
+---
+
+## 10. 实施偏离记录
+
+执行过程中发现设计阶段未覆盖的问题，已在实施时修正：
+
+### 10.1 zrpc 客户端包装器缺失
+
+Tag、Reply、QA 三个 gRPC 服务的 proto 只生成了 `pb` 包（protobuf 定义），缺少 go-zero 框架所需的 zrpc 客户端包装器。参照 `concerned/rpc/concerned/concerned.go` 模式，新建了三个包装器：
+
+| 文件 | 说明 |
+|------|------|
+| `application/tag/rpc/tag/tag.go` | Tag zrpc 客户端 (10 个方法) |
+| `application/reply/rpc/reply/reply.go` | Reply zrpc 客户端 (5 个方法) |
+| `application/qa/rpc/qa/qa.go` | QA zrpc 客户端 (9 个方法) |
+
+每个包装器包含: 类型别名(proto→client)、接口定义、构造函数、方法实现(通过 pb 生成的 gRPC client)。
+
+### 10.2 Member DurationDays 类型修正
+
+`UpgradeMemberRequest.DurationDays` 和 `MemberOrderItem.DurationDays` 在 proto 中定义为 `int32`，设计文档中误写为 `int64`，实施时修正为 `int32`。
+
+### 10.3 ReplyCreateRequest json tag 修正
+
+`ReplyCreateRequest` 中 `BeReplyUserId` 和 `ParentId` 的 json tag 从 `,optional` 改为 `,omitempty`，因为 Go 标准库 `encoding/json` 不支持 `optional` 选项。
+
+### 10.4 SignatureConf 不含 RewriteThreshold
+
+go-zero v1.10.1 的 `SignatureConf` 字段为 `Strict`、`Expiry`、`PrivateKeys`，无 `RewriteThreshold`。新路由通过 `rest.WithSignature(serverCtx.Config.Signature)` 使用与已有 Like/Follow 路由相同的签名配置，无需额外设置。

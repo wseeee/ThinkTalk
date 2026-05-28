@@ -2062,3 +2062,15 @@ git commit -m "feat: add REST gateways for Tag, Reply, QA services and fill miss
 - Fix ArticleDetailResponse.AuthorId type string -> int64
 - Total: 28 new REST endpoints, 31 -> 59"
 ```
+
+---
+
+## 实施偏离记录
+
+执行过程中发现以下问题，已记录在设计文档第 10 节：
+
+1. **zrpc 客户端包装器缺失** — Tag/Reply/QA 只有 pb 包，缺少 go-zero zrpc 客户端，新建 3 个包装器文件
+2. **Member DurationDays 类型** — proto 为 `int32`，设计文档误写为 `int64`，实施时修正
+3. **ReplyCreateRequest json tag** — `,optional` 改为 `,omitempty`（Go 标准库不支持 optional）
+4. **SignatureConf 无 RewriteThreshold** — go-zero v1.10.1 的签名配置无此字段，现有 Like/Follow 已正常工作
+```
