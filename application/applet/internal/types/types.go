@@ -203,3 +203,215 @@ type MemberRightResponse struct {
 	HasRight bool  `json:"has_right"`
 	Level    int32 `json:"level"`
 }
+
+// ========== Tag 模块 ==========
+
+type TagCreateRequest struct {
+	TagName string `json:"tag_name"`
+	TagDesc string `json:"tag_desc"`
+}
+
+type TagCreateResponse struct {
+	TagId int64 `json:"tag_id"`
+}
+
+type TagUpdateRequest struct {
+	TagId   int64  `json:"tag_id"`
+	TagName string `json:"tag_name"`
+	TagDesc string `json:"tag_desc"`
+}
+
+type TagUpdateResponse struct{}
+
+type TagDeleteRequest struct {
+	TagId int64 `json:"tag_id"`
+}
+
+type TagDeleteResponse struct{}
+
+type TagDetailRequest struct {
+	TagId int64 `form:"tag_id"`
+}
+
+type TagItem struct {
+	TagId         int64  `json:"tag_id"`
+	TagName       string `json:"tag_name"`
+	TagDesc       string `json:"tag_desc"`
+	ResourceCount int64  `json:"resource_count"`
+	CreateTime    int64  `json:"create_time"`
+}
+
+type TagDetailResponse = TagItem
+
+type TagListRequest struct {
+	Cursor   int64 `form:"cursor"`
+	PageSize int64 `form:"page_size"`
+}
+
+type TagListResponse struct {
+	Items  []*TagItem `json:"items"`
+	Cursor int64      `json:"cursor"`
+	IsEnd  bool       `json:"is_end"`
+}
+
+type HotTagsRequest struct {
+	Limit int32 `form:"limit"`
+}
+
+type HotTagsResponse struct {
+	Items []*TagItem `json:"items"`
+}
+
+type TagResourceRequest struct {
+	BizId    string `json:"biz_id"`
+	TargetId int64  `json:"target_id"`
+	TagId    int64  `json:"tag_id"`
+}
+
+type TagResourceResponse struct{}
+
+type UntagResourceRequest struct {
+	BizId    string `json:"biz_id"`
+	TargetId int64  `json:"target_id"`
+	TagId    int64  `json:"tag_id"`
+}
+
+type UntagResourceResponse struct{}
+
+type ResourcesByTagRequest struct {
+	TagId    int64  `form:"tag_id"`
+	BizId    string `form:"biz_id,optional"`
+	Cursor   int64  `form:"cursor"`
+	PageSize int64  `form:"page_size"`
+}
+
+type ResourceItem struct {
+	TargetId   int64  `json:"target_id"`
+	BizId      string `json:"biz_id"`
+	CreateTime int64  `json:"create_time"`
+}
+
+type ResourcesByTagResponse struct {
+	Items  []*ResourceItem `json:"items"`
+	Cursor int64           `json:"cursor"`
+	IsEnd  bool            `json:"is_end"`
+}
+
+type TagsByResourceRequest struct {
+	BizId    string `form:"biz_id"`
+	TargetId int64  `form:"target_id"`
+}
+
+type TagsByResourceResponse struct {
+	Items []*TagItem `json:"items"`
+}
+
+// ========== Reply 模块 ==========
+
+type ReplyCreateRequest struct {
+	BizId         string `json:"biz_id"`
+	TargetId      int64  `json:"target_id"`
+	BeReplyUserId int64  `json:"be_reply_user_id,omitempty"`
+	ParentId      int64  `json:"parent_id,omitempty"`
+	Content       string `json:"content"`
+}
+
+type ReplyCreateResponse struct {
+	ReplyId int64 `json:"reply_id"`
+}
+
+type ReplyDeleteRequest struct {
+	ReplyId int64 `json:"reply_id"`
+}
+
+type ReplyDeleteResponse struct{}
+
+type ReplyDetailRequest struct {
+	ReplyId int64 `form:"reply_id"`
+}
+
+type ReplyItem struct {
+	ReplyId       int64        `json:"reply_id"`
+	BizId         string       `json:"biz_id"`
+	TargetId      int64        `json:"target_id"`
+	ReplyUserId   int64        `json:"reply_user_id"`
+	BeReplyUserId int64        `json:"be_reply_user_id"`
+	ParentId      int64        `json:"parent_id"`
+	Content       string       `json:"content"`
+	LikeNum       int64        `json:"like_num"`
+	CreateTime    int64        `json:"create_time"`
+	SubReplies    []*ReplyItem `json:"sub_replies,omitempty"`
+}
+
+type ReplyDetailResponse struct {
+	Reply *ReplyItem `json:"reply"`
+}
+
+type ReplyListRequest struct {
+	BizId    string `form:"biz_id"`
+	TargetId int64  `form:"target_id"`
+	Cursor   int64  `form:"cursor"`
+	PageSize int64  `form:"page_size"`
+	SortType int32  `form:"sort_type,optional"`
+}
+
+type ReplyListResponse struct {
+	Items  []*ReplyItem `json:"items"`
+	Cursor int64        `json:"cursor"`
+	IsEnd  bool         `json:"is_end"`
+}
+
+type ReplyCountRequest struct {
+	BizId    string `form:"biz_id"`
+	TargetId int64  `form:"target_id"`
+}
+
+type ReplyCountResponse struct {
+	ReplyNum     int64 `json:"reply_num"`
+	ReplyRootNum int64 `json:"reply_root_num"`
+}
+
+// ========== ConcernedCount ==========
+
+type ConcernedCountRequest struct {
+	BizId string `form:"biz_id"`
+	ObjId int64  `form:"obj_id"`
+}
+
+type ConcernedCountResponse struct {
+	ConcernedNum int64 `json:"concerned_num"`
+}
+
+// ========== Member 遗漏 ==========
+
+type UpgradeMemberRequest struct {
+	Level         int32  `json:"level"`
+	DurationDays  int64  `json:"duration_days"`
+	TransactionId string `json:"transaction_id"`
+	Amount        int64  `json:"amount"`
+	PayChannel    string `json:"pay_channel"`
+}
+
+type UpgradeMemberResponse struct{}
+
+type MemberOrderListRequest struct {
+	Cursor   int64 `form:"cursor"`
+	PageSize int64 `form:"page_size"`
+}
+
+type MemberOrderItem struct {
+	Id           int64  `json:"id"`
+	UserId       int64  `json:"user_id"`
+	Level        int32  `json:"level"`
+	DurationDays int64  `json:"duration_days"`
+	Amount       int64  `json:"amount"`
+	PayChannel   string `json:"pay_channel"`
+	Status       int32  `json:"status"`
+	CreateTime   int64  `json:"create_time"`
+}
+
+type MemberOrderListResponse struct {
+	Items  []*MemberOrderItem `json:"items"`
+	Cursor int64              `json:"cursor"`
+	IsEnd  bool               `json:"is_end"`
+}
