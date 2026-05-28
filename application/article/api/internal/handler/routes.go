@@ -31,6 +31,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: ArticleDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/upload/cover",
 				Handler: UploadCoverHandler(serverCtx),
 			},

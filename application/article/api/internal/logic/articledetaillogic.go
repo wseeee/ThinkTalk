@@ -7,7 +7,6 @@ import (
 	"ThinkTalk/application/article/rpc/article"
 	"ThinkTalk/application/user/rpc/user"
 	"context"
-	"strconv"
 
 	"ThinkTalk/application/article/api/internal/svc"
 	"ThinkTalk/application/article/api/internal/types"
@@ -52,7 +51,7 @@ func (l *ArticleDetailLogic) ArticleDetail(req *types.ArticleDetailRequest) (res
 		Content:     articleInfo.Article.Content,
 		Description: articleInfo.Article.Description,
 		Cover:       articleInfo.Article.Cover,
-		AuthorId:    strconv.FormatInt(articleInfo.Article.AuthorId, 10),
+		AuthorId:    articleInfo.Article.AuthorId,
 		AuthorName:  userInfo.Username,
 	}, nil
 }

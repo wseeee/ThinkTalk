@@ -12,7 +12,7 @@ type ArticleDetailResponse struct {
 	Content     string `json:"content"`
 	Description string `json:"description"`
 	Cover       string `json:"cover"`
-	AuthorId    string `json:"author_id"`
+	AuthorId    int64  `json:"author_id"`
 	AuthorName  string `json:"author_name"`
 }
 
@@ -73,4 +73,8 @@ type SearchResponse struct {
 	Articles []SearchInfo `json:"articles"`
 	Cursor   int64        `json:"cursor"`
 	IsEnd    bool         `json:"is_end"`
+}
+
+type ArticleDeleteRequest struct {
+	ArticleId int64 `json:"article_id"`
 }
