@@ -1,0 +1,327 @@
+services:
+  # ==================== 构建器（只跑一次，产出共享镜像） ====================
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: thinktalk:latest
+    container_name: thinktalk-builder
+    command: ["echo", "all services built"]
+
+  # ==================== API 服务 ====================
+  applet-api:
+    image: thinktalk:latest
+    container_name: thinktalk-applet-api
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./application/applet/etc:/app/etc
+    entrypoint: ["/app/applet-api"]
+    command: ["-f", "/app/etc/applet-api.yaml"]
+
+  article-api:
+    image: thinktalk:latest
+    container_name: thinktalk-article-api
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8889:80"
+    volumes:
+      - ./application/article/api/etc:/app/etc
+    entrypoint: ["/app/article-api"]
+    command: ["-f", "/app/etc/article-api.yaml"]
+
+  chat-api:
+    image: thinktalk:latest
+    container_name: thinktalk-chat-api
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8088:8087"
+    volumes:
+      - ./application/chat/api/etc:/app/etc
+    entrypoint: ["/app/chat-api"]
+    command: ["-f", "/app/etc/chat-api.yaml"]
+
+  qa-api:
+    image: thinktalk:latest
+    container_name: thinktalk-qa-api
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8890:8890"
+    volumes:
+      - ./application/qa/api/etc:/app/etc
+    entrypoint: ["/app/qa-api"]
+    command: ["-f", "/app/etc/qa-api.yaml"]
+
+  # ==================== RPC 服务 ====================
+  user-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-user-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./application/user/rpc/etc:/app/etc
+    entrypoint: ["/app/user-rpc"]
+    command: ["-f", "/app/etc/user.yaml"]
+
+  article-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-article-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./application/article/rpc/etc:/app/etc
+    entrypoint: ["/app/article-rpc"]
+    command: ["-f", "/app/etc/article.yaml"]
+
+  chat-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-chat-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8087:8087"
+      - "9107:9107"
+    volumes:
+      - ./application/chat/rpc/etc:/app/etc
+    entrypoint: ["/app/chat-rpc"]
+    command: ["-f", "/app/etc/chat.yaml"]
+
+  concerned-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-concerned-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8086:8086"
+      - "9105:9105"
+    volumes:
+      - ./application/concerned/rpc/etc:/app/etc
+    entrypoint: ["/app/concerned-rpc"]
+    command: ["-f", "/app/etc/concerned.yaml"]
+
+  follow-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-follow-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8081:8081"
+      - "9111:9101"
+    volumes:
+      - ./application/follow/rpc/etc:/app/etc
+    entrypoint: ["/app/follow-rpc"]
+    command: ["-f", "/app/etc/follow.yaml"]
+
+  like-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-like-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./application/like/rpc/etc:/app/etc
+    entrypoint: ["/app/like-rpc"]
+    command: ["-f", "/app/etc/like.yaml"]
+
+  member-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-member-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8091:8091"
+    volumes:
+      - ./application/member/rpc/etc:/app/etc
+    entrypoint: ["/app/member-rpc"]
+    command: ["-f", "/app/etc/member.yaml"]
+
+  message-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-message-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8085:8085"
+      - "9104:9104"
+    volumes:
+      - ./application/message/rpc/etc:/app/etc
+    entrypoint: ["/app/message-rpc"]
+    command: ["-f", "/app/etc/message.yaml"]
+
+  qa-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-qa-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8090:8090"
+      - "9106:9106"
+    volumes:
+      - ./application/qa/rpc/etc:/app/etc
+    entrypoint: ["/app/qa-rpc"]
+    command: ["-f", "/app/etc/qa.yaml"]
+
+  reply-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-reply-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8083:8083"
+      - "9102:9102"
+    volumes:
+      - ./application/reply/rpc/etc:/app/etc
+    entrypoint: ["/app/reply-rpc"]
+    command: ["-f", "/app/etc/reply.yaml"]
+
+  tag-rpc:
+    image: thinktalk:latest
+    container_name: thinktalk-tag-rpc
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "8084:8084"
+      - "9103:9103"
+    volumes:
+      - ./application/tag/rpc/etc:/app/etc
+    entrypoint: ["/app/tag-rpc"]
+    command: ["-f", "/app/etc/tag.yaml"]
+
+  # ==================== MQ 消费者服务 ====================
+  article-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-article-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    ports:
+      - "9101:9101"
+    volumes:
+      - ./application/article/mq/etc:/app/etc
+    entrypoint: ["/app/article-mq"]
+    command: ["-f", "/app/etc/article.yaml"]
+
+  chat-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-chat-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/chat/mq/etc:/app/etc
+    entrypoint: ["/app/chat-mq"]
+    command: ["-f", "/app/etc/chat.yaml"]
+
+  concerned-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-concerned-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/concerned/mq/etc:/app/etc
+    entrypoint: ["/app/concerned-mq"]
+    command: ["-f", "/app/etc/concerned.yaml"]
+
+  like-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-like-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/like/mq/etc:/app/etc
+    entrypoint: ["/app/like-mq"]
+    command: ["-f", "/app/etc/like.yaml"]
+
+  member-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-member-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/member/mq/etc:/app/etc
+    entrypoint: ["/app/member-mq"]
+    command: ["-f", "/app/etc/member.yaml"]
+
+  message-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-message-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/message/mq/etc:/app/etc
+    entrypoint: ["/app/message-mq"]
+    command: ["-f", "/app/etc/message.yaml"]
+
+  qa-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-qa-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/qa/mq/etc:/app/etc
+    entrypoint: ["/app/qa-mq"]
+    command: ["-f", "/app/etc/qa.yaml"]
+
+  reply-mq:
+    image: thinktalk:latest
+    container_name: thinktalk-reply-mq
+    restart: unless-stopped
+    depends_on:
+      builder:
+        condition: service_completed_successfully
+    volumes:
+      - ./application/reply/mq/etc:/app/etc
+    entrypoint: ["/app/reply-mq"]
+    command: ["-f", "/app/etc/reply.yaml"]
