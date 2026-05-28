@@ -386,7 +386,7 @@ type ConcernedCountResponse struct {
 
 type UpgradeMemberRequest struct {
 	Level         int32  `json:"level"`
-	DurationDays  int64  `json:"duration_days"`
+	DurationDays  int32  `json:"duration_days"`
 	TransactionId string `json:"transaction_id"`
 	Amount        int64  `json:"amount"`
 	PayChannel    string `json:"pay_channel"`
@@ -403,7 +403,7 @@ type MemberOrderItem struct {
 	Id           int64  `json:"id"`
 	UserId       int64  `json:"user_id"`
 	Level        int32  `json:"level"`
-	DurationDays int64  `json:"duration_days"`
+	DurationDays int32  `json:"duration_days"`
 	Amount       int64  `json:"amount"`
 	PayChannel   string `json:"pay_channel"`
 	Status       int32  `json:"status"`

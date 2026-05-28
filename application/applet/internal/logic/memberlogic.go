@@ -51,3 +51,45 @@ func (l *MemberLogic) CheckRight(userId int64, req *types.MemberRightRequest) (*
 		Level:    resp.Level,
 	}, nil
 }
+
+func (l *MemberLogic) UpgradeMember(userId int64, req *types.UpgradeMemberRequest) (*types.UpgradeMemberResponse, error) {
+	_, err := l.svcCtx.MemberRPC.UpgradeMember(l.ctx, &pb.UpgradeMemberRequest{
+		UserId:        userId,
+		Level:         req.Level,
+		DurationDays:  req.DurationDays,
+		TransactionId: req.TransactionId,
+		Amount:        req.Amount,
+		PayChannel:    req.PayChannel,
+	})
+	if err != nil {
+		l.Errorf("[UpgradeMember] rpc err: %v", err)
+		return nil, err
+	}
+	return &types.UpgradeMemberResponse{}, nil
+}
+
+func (l *MemberLogic) MemberOrderList(userId int64, req *types.MemberOrderListRequest) (*types.MemberOrderListResponse, error) {
+	resp, err := l.svcCtx.MemberRPC.MemberOrderList(l.ctx, &pb.MemberOrderListRequest{
+		UserId:   userId,
+		Cursor:   req.Cursor,
+		PageSize: req.PageSize,
+	})
+	if err != nil {
+		l.Errorf("[MemberOrderList] rpc err: %v", err)
+		return nil, err
+	}
+	items := make([]*types.MemberOrderItem, 0, len(resp.Items))
+	for _, item := range resp.Items {
+		items = append(items, &types.MemberOrderItem{
+			Id:           item.Id,
+			UserId:       item.UserId,
+			Level:        item.Level,
+			DurationDays: item.DurationDays,
+			Amount:       item.Amount,
+			PayChannel:   item.PayChannel,
+			Status:       item.Status,
+			CreateTime:   item.CreateTime,
+		})
+	}
+	return &types.MemberOrderListResponse{Items: items, Cursor: resp.Cursor, IsEnd: resp.IsEnd}, nil
+}

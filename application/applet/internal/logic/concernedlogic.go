@@ -59,6 +59,18 @@ func (l *ConcernedLogic) Check(userId int64, req *types.ConcernedCheckRequest) (
 	return &types.ConcernedCheckResponse{IsConcerned: resp.IsConcerned}, nil
 }
 
+func (l *ConcernedLogic) ConcernedCount(req *types.ConcernedCountRequest) (*types.ConcernedCountResponse, error) {
+	resp, err := l.svcCtx.ConcernedRPC.ConcernedCount(l.ctx, &pb.ConcernedCountRequest{
+		BizId: req.BizId,
+		ObjId: req.ObjId,
+	})
+	if err != nil {
+		l.Errorf("[ConcernedCount] rpc err: %v", err)
+		return nil, err
+	}
+	return &types.ConcernedCountResponse{ConcernedNum: resp.ConcernedNum}, nil
+}
+
 func (l *ConcernedLogic) List(userId int64, req *types.ConcernedListRequest) (*types.ConcernedListResponse, error) {
 	resp, err := l.svcCtx.ConcernedRPC.ConcernedList(l.ctx, &pb.ConcernedListRequest{
 		UserId:   userId,
