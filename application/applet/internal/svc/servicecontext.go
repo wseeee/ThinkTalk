@@ -7,6 +7,8 @@ import (
 	like "ThinkTalk/application/like/rpc/like"
 	"ThinkTalk/application/member/rpc/member"
 	"ThinkTalk/application/message/rpc/message"
+	"ThinkTalk/application/reply/rpc/reply"
+	"ThinkTalk/application/tag/rpc/tag"
 	"ThinkTalk/application/user/rpc/user"
 	"ThinkTalk/pkg/interceptors"
 
@@ -23,6 +25,8 @@ type ServiceContext struct {
 	MessageRPC   message.Message
 	ConcernedRPC concerned.Concerned
 	MemberRPC    member.Member
+	TagRPC       tag.Tag
+	ReplyRPC     reply.Reply
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -33,6 +37,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	messageRPC := zrpc.MustNewClient(c.MessageRpc, zrpc.WithUnaryClientInterceptor(interceptors.ClientErrorInterceptor()))
 	concernedRPC := zrpc.MustNewClient(c.ConcernedRpc, zrpc.WithUnaryClientInterceptor(interceptors.ClientErrorInterceptor()))
 	memberRPC := zrpc.MustNewClient(c.MemberRpc, zrpc.WithUnaryClientInterceptor(interceptors.ClientErrorInterceptor()))
+	tagRPC := zrpc.MustNewClient(c.TagRpc, zrpc.WithUnaryClientInterceptor(interceptors.ClientErrorInterceptor()))
+	replyRPC := zrpc.MustNewClient(c.ReplyRpc, zrpc.WithUnaryClientInterceptor(interceptors.ClientErrorInterceptor()))
 	return &ServiceContext{
 		Config:       c,
 		RDB:          rdb,
@@ -42,5 +48,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		MessageRPC:   message.NewMessage(messageRPC),
 		ConcernedRPC: concerned.NewConcerned(concernedRPC),
 		MemberRPC:    member.NewMember(memberRPC),
+		TagRPC:       tag.NewTag(tagRPC),
+		ReplyRPC:     reply.NewReply(replyRPC),
 	}
 }

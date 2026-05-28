@@ -45,6 +45,18 @@ MemberRpc:
             - 101.42.34.232:2379
         Key: member.rpc
     NonBlock: true
+TagRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: tag.rpc
+    NonBlock: true
+ReplyRpc:
+    Etcd:
+        Hosts:
+            - 101.42.34.232:2379
+        Key: reply.rpc
+    NonBlock: true
 Redis :
     Host: 101.42.34.232:6379
     Pass: dsw123456

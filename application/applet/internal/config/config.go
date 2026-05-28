@@ -25,4 +25,6 @@ type Config struct {
 	MessageRpc  zrpc.RpcClientConf
 	ConcernedRpc zrpc.RpcClientConf
 	MemberRpc   zrpc.RpcClientConf
+	TagRpc      zrpc.RpcClientConf
+	ReplyRpc    zrpc.RpcClientConf
 }
