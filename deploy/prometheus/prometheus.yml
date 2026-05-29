@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "thinktalk-services"
+    static_configs:
+      - targets:
+          - "thinktalk-article-mq:9101"
+          - "thinktalk-follow-rpc:9101"
+          - "thinktalk-reply-rpc:9102"
+          - "thinktalk-tag-rpc:9103"
+          - "thinktalk-message-rpc:9104"
+          - "thinktalk-concerned-rpc:9105"
+          - "thinktalk-qa-rpc:9106"
+          - "thinktalk-chat-rpc:9107"

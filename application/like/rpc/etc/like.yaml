@@ -10,7 +10,7 @@ KqPusherConf:
     - 101.42.34.232:9092
   Topic: thinktalk_like
 Mysql:
-  DataSource: root:123456@tcp(101.42.34.232:3306)/thinktalk_like?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_like?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 CacheRedis:
   - Host: 101.42.34.232:6379
     Type: node

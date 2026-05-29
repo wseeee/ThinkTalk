@@ -1,0 +1,10 @@
+.git
+.gitignore
+*.md
+docs
+deploy/prometheus
+docker-compose.yml
+Dockerfile
+.dockerignore
+.vscode
+.idea

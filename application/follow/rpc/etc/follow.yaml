@@ -3,7 +3,7 @@ ListenOn: 0.0.0.0:8081
 Etcd:
   Hosts:
   - 101.42.34.232:2379
-  Key: service.rpc
+  Key: follow.rpc
 DB:
   DataSource: "root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_follow?parseTime=true&loc=Local"
   MaxIdleConns: 10
