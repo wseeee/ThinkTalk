@@ -9,10 +9,10 @@ Auth:
   RefreshAfter: 604800
 
 MinIO:
-  Endpoint: 101.42.34.232:9000
-  AccessKeyID: minioadmin
-  AccessKeySecret: "dsw123456"
-  BucketName: article
+  Endpoint: ${MINIO_ENDPOINT}
+  AccessKeyID: ${MINIO_ACCESS_KEY_ID}
+  AccessKeySecret: ${MINIO_ACCESS_KEY_SECRET}
+  BucketName: ${MINIO_BUCKET_NAME}
   Location: zh-east-1
   UseSSL: false
 
