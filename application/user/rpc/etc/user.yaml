@@ -2,16 +2,16 @@ Name: user.rpc
 ListenOn: 0.0.0.0:8080
 Etcd:
   Hosts:
-  - 101.42.34.232:2379
+  - ${ETCD_HOST}:${ETCD_PORT}
   Key: user.rpc
-DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_user?parseTime=true
+DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_user?parseTime=true
 CacheRedis:
-  - Host: 101.42.34.232:6379
-    Pass: dsw123456
+  - Host: ${REDIS_HOST}:${REDIS_PORT}
+    Pass: ${REDIS_PASS}
     Type: node
     DB : 0
 BizRedis:
-  Host: 101.42.34.232:6379
-  Pass: dsw123456
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
   Type: node
   DB : 0

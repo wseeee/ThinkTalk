@@ -21,7 +21,7 @@ func main() {
 	env.LoadEnv()
 
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
+	conf.MustLoad(*configFile, &c, conf.UseEnv())
 
 	svcCtx := svc.NewServiceContext(c)
 	ctx := context.Background()

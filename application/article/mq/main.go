@@ -22,7 +22,7 @@ func main() {
 	env.LoadEnv()
 
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
+	conf.MustLoad(*configFile, &c, conf.UseEnv())
 	err := c.ServiceConf.SetUp()
 	if err != nil {
 		panic(err)

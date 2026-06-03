@@ -3,62 +3,62 @@ Host: 0.0.0.0
 Port: 8888
 
 Auth:
-    AccessSecret: ThinkTalk
+    AccessSecret: ${JWT_ACCESS_SECRET}
     AccessExpire: 604800
-    RefreshSecret: ThinkTalk
+    RefreshSecret: ${JWT_REFRESH_SECRET}
     RefreshExpire: 2592000
     RefreshAfter: 604800
 UserRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: user.rpc
-        Advertise: 101.42.34.232:8080
+        Advertise: ${ETCD_HOST}:8080
     NonBlock: true
 LikeRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: like.rpc
     NonBlock: true
 FollowRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: follow.rpc
     NonBlock: true
 MessageRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: message.rpc
     NonBlock: true
 ConcernedRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: concerned.rpc
     NonBlock: true
 MemberRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: member.rpc
     NonBlock: true
 TagRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: tag.rpc
     NonBlock: true
 ReplyRpc:
     Etcd:
         Hosts:
-            - 101.42.34.232:2379
+            - ${ETCD_HOST}:${ETCD_PORT}
         Key: reply.rpc
     NonBlock: true
 Redis :
-    Host: 101.42.34.232:6379
-    Pass: dsw123456
+    Host: ${REDIS_HOST}:${REDIS_PORT}
+    Pass: ${REDIS_PASS}
     Type: node
     DB: 0
