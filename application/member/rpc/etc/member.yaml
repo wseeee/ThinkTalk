@@ -2,16 +2,16 @@ Name: member.rpc
 ListenOn: 0.0.0.0:8091
 Etcd:
   Hosts:
-    - 101.42.34.232:2379
+    - ${ETCD_HOST}:${ETCD_PORT}
   Key: member.rpc
 
 DB:
-  DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_member?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_member?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
   MaxOpenConns: 10
   MaxIdleConns: 100
   MaxLifetime: 3600
 
 BizRedis:
-  Host: 101.42.34.232:6379
-  Pass: dsw123456
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
   Type: node

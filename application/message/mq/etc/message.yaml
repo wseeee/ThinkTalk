@@ -2,15 +2,15 @@ Name: mq
 KqConsumerConf:
   Name: message-kq-consumer
   Brokers:
-    - 101.42.34.232:9092
+    - ${KAFKA_HOST}:${KAFKA_PORT}
   Group: group-thinktalk-message
   Topic: thinktalk_notification
   Offset: last
   Consumers: 1
   Processors: 1
 Mysql:
-  DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_message?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_message?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 CacheRedis:
-    - Host: 101.42.34.232:6379
+    - Host: ${REDIS_HOST}:${REDIS_PORT}
       Type: node
-      Pass: dsw123456
+      Pass: ${REDIS_PASS}

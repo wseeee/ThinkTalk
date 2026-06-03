@@ -2,20 +2,20 @@ Name: chat.rpc
 ListenOn: 0.0.0.0:8087
 Etcd:
   Hosts:
-  - 101.42.34.232:2379
+  - ${ETCD_HOST}:${ETCD_PORT}
   Key: chat.rpc
 KqPusherConf:
   Brokers:
-    - 101.42.34.232:9092
+    - ${KAFKA_HOST}:${KAFKA_PORT}
   Topic: thinktalk_chat
 DB:
-  DataSource: "root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_chat?parseTime=true&loc=Local"
+  DataSource: "${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_chat?parseTime=true&loc=Local"
   MaxIdleConns: 10
   MaxOpenConns: 100
   ConnMaxLifetime: 3600
 BizRedis:
-  Host: 101.42.34.232:6379
-  Pass: dsw123456
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
   Type: node
 Prometheus:
   Host: 0.0.0.0

@@ -2,12 +2,12 @@ Name: article.rpc
 ListenOn: 0.0.0.0:9090
 Etcd:
   Hosts:
-  - 101.42.34.232:2379
+  - ${ETCD_HOST}:${ETCD_PORT}
   Key: article.rpc
-DataSource: root:dsw123456@tcp(101.42.34.232:3306)/thinktalk_article?parseTime=true&loc=Local
+DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_article?parseTime=true&loc=Local
 CacheRedis:
-  - Host: 101.42.34.232:6379
-    Pass: dsw123456
+  - Host: ${REDIS_HOST}:${REDIS_PORT}
+    Pass: ${REDIS_PASS}
     Type: node
 Es:
   Addresses:
@@ -15,6 +15,6 @@ Es:
   Username:
   Password:
 BizRedis:
-  Host: 101.42.34.232:6379
-  Pass: dsw123456
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
   Type: node
