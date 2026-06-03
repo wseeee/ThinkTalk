@@ -4,7 +4,8 @@
 package main
 
 import (
-	"flag"
+		"ThinkTalk/pkg/env"
+"flag"
 	"fmt"
 
 	"ThinkTalk/application/article/api/internal/config"
@@ -19,6 +20,8 @@ var configFile = flag.String("f", "etc/article-api.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	env.LoadEnv()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)

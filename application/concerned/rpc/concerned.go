@@ -1,7 +1,8 @@
 package main
 
 import (
-	"flag"
+		"ThinkTalk/pkg/env"
+"flag"
 	"fmt"
 
 	"ThinkTalk/application/concerned/rpc/internal/config"
@@ -20,6 +21,8 @@ var configFile = flag.String("f", "etc/concerned.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	env.LoadEnv()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)

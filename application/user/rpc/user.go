@@ -10,6 +10,8 @@ import (
 	"ThinkTalk/application/user/rpc/internal/svc"
 	us "ThinkTalk/application/user/rpc/service"
 
+	"ThinkTalk/pkg/env"
+
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -21,6 +23,8 @@ var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	env.LoadEnv()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)

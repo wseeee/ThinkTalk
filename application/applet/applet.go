@@ -12,6 +12,8 @@ import (
 	"ThinkTalk/application/applet/internal/handler"
 	"ThinkTalk/application/applet/internal/svc"
 
+	"ThinkTalk/pkg/env"
+
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -21,6 +23,8 @@ var configFile = flag.String("f", "etc/applet-api.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	env.LoadEnv()
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
