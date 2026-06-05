@@ -28,8 +28,7 @@ Thumbs.db
 # Env & secrets
 .env
 *.local.yaml
-.md
-
+*.md
 
 # Logs
 /logs/
@@ -38,11 +37,11 @@ Thumbs.db
 # Temp
 tmp/
 
+# 全局忽略所有bat/sh脚本
+*.bat
+*.sh
 
-.json
-.bat
-.sh
-
-./logs
-./bin
-./claude
+# 目录统一写法
+logs/
+bin/
+claude/
