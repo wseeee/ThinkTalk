@@ -14,22 +14,22 @@ type (
 		ArticleId int64 `json:"article_id"`
 	}
 	ArticleDetailRequest {
-		ArticleId int64 `form:"article_id"`
+		ArticleId int64 `form:"article_id,optional"`
 	}
 	ArticleDetailResponse {
 		Title       string `json:"title"`
 		Content     string `json:"content"`
 		Description string `json:"description"`
 		Cover       string `json:"cover"`
-		AuthorId    string `json:"author_id"`
+		AuthorId    int64  `json:"author_id"`
 		AuthorName  string `json:"author_name"`
 	}
 	ArticleListRequest {
-		AuthorId  int64 `form:"author_id"`
-		Cursor    int64 `form:"cursor"`
-		PageSize  int64 `form:"page_size"`
-		SortType  int32 `form:"sort_type"`
-		ArticleId int64 `form:"article_id"`
+		AuthorId  int64 `form:"author_id,optional"`
+		Cursor    int64 `form:"cursor,optional"`
+		PageSize  int64 `form:"page_size,optional"`
+		SortType  int32 `form:"sort_type,optional"`
+		ArticleId int64 `form:"article_id,optional"`
 	}
 	ArticleInfo {
 		ArticleId   int64  `json:"article_id"`
@@ -41,6 +41,40 @@ type (
 	ArticleListResponse {
 		Articles []ArticleInfo `json:"articles"`
 	}
+	SearchRequest {
+		Keyword  string `form:"keyword"`
+		Cursor   int64  `form:"cursor"`
+		PageSize int64  `form:"page_size"`
+	}
+	SearchInfo {
+		ArticleId   int64  `json:"article_id"`
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Cover       string `json:"cover"`
+		AuthorId    int64  `json:"author_id"`
+		AuthorName  string `json:"author_name"`
+		LikeNum     int64  `json:"like_num"`
+		CommentNum  int64  `json:"comment_num"`
+		PublishTime string `json:"publish_time"`
+	}
+	SearchResponse {
+		Articles []SearchInfo `json:"articles"`
+		Cursor   int64        `json:"cursor"`
+		IsEnd    bool         `json:"is_end"`
+	}
+	AllArticlesRequest {
+		Cursor   int64 `form:"cursor,optional"`
+		PageSize int64 `form:"page_size,optional"`
+	}
+	AllArticlesResponse {
+		Articles []SearchInfo `json:"articles"`
+		Cursor   int64        `json:"cursor"`
+		IsEnd    bool         `json:"is_end"`
+	}
+	ArticleDeleteRequest {
+		ArticleId int64 `json:"article_id"`
+	}
+	ArticleDeleteResponse  {}
 )
 
 @server (
@@ -59,5 +93,14 @@ service article-api {
 
 	@handler ArticleListHandler
 	get /list (ArticleListRequest) returns (ArticleListResponse)
+
+	@handler SearchHandler
+	get /search (SearchRequest) returns (SearchResponse)
+
+	@handler AllArticlesHandler
+	get /all (AllArticlesRequest) returns (AllArticlesResponse)
+
+	@handler ArticleDeleteHandler
+	post /delete (ArticleDeleteRequest) returns (ArticleDeleteResponse)
 }
 

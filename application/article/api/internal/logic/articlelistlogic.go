@@ -6,6 +6,7 @@ package logic
 import (
 	"ThinkTalk/application/article/rpc/article"
 	"context"
+	"encoding/json"
 
 	"ThinkTalk/application/article/api/internal/svc"
 	"ThinkTalk/application/article/api/internal/types"
@@ -28,8 +29,17 @@ func NewArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Artic
 }
 
 func (l *ArticleListLogic) ArticleList(req *types.ArticleListRequest) (resp *types.ArticleListResponse, err error) {
+	userId := req.AuthorId
+	if userId <= 0 {
+		if val := l.ctx.Value("userId"); val != nil {
+			if num, ok := val.(json.Number); ok {
+				userId, _ = num.Int64()
+			}
+		}
+	}
+
 	articles, err := l.svcCtx.ArticleRPC.Articles(l.ctx, &article.ArticlesRequest{
-		UserId:    req.AuthorId,
+		UserId:    userId,
 		Cursor:    req.Cursor,
 		PageSize:  req.PageSize,
 		SortType:  req.SortType,

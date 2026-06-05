@@ -3,8 +3,26 @@
 
 package types
 
+type AllArticlesRequest struct {
+	Cursor   int64 `form:"cursor,optional"`
+	PageSize int64 `form:"page_size,optional"`
+}
+
+type AllArticlesResponse struct {
+	Articles []SearchInfo `json:"articles"`
+	Cursor   int64        `json:"cursor"`
+	IsEnd    bool         `json:"is_end"`
+}
+
+type ArticleDeleteRequest struct {
+	ArticleId int64 `json:"article_id"`
+}
+
+type ArticleDeleteResponse struct {
+}
+
 type ArticleDetailRequest struct {
-	ArticleId int64 `form:"article_id"`
+	ArticleId int64 `form:"article_id,optional"`
 }
 
 type ArticleDetailResponse struct {
@@ -25,11 +43,11 @@ type ArticleInfo struct {
 }
 
 type ArticleListRequest struct {
-	AuthorId  int64 `form:"author_id"`
-	Cursor    int64 `form:"cursor"`
-	PageSize  int64 `form:"page_size"`
-	SortType  int32 `form:"sort_type"`
-	ArticleId int64 `form:"article_id"`
+	AuthorId  int64 `form:"author_id,optional"`
+	Cursor    int64 `form:"cursor,optional"`
+	PageSize  int64 `form:"page_size,optional"`
+	SortType  int32 `form:"sort_type,optional"`
+	ArticleId int64 `form:"article_id,optional"`
 }
 
 type ArticleListResponse struct {
@@ -47,16 +65,6 @@ type PublishResponse struct {
 	ArticleId int64 `json:"article_id"`
 }
 
-type UploadCoverResponse struct {
-	CoverUrl string `json:"cover_url"`
-}
-
-type SearchRequest struct {
-	Keyword  string `form:"keyword"`
-	Cursor   int64  `form:"cursor"`
-	PageSize int64  `form:"page_size"`
-}
-
 type SearchInfo struct {
 	ArticleId   int64  `json:"article_id"`
 	Title       string `json:"title"`
@@ -69,12 +77,18 @@ type SearchInfo struct {
 	PublishTime string `json:"publish_time"`
 }
 
+type SearchRequest struct {
+	Keyword  string `form:"keyword"`
+	Cursor   int64  `form:"cursor"`
+	PageSize int64  `form:"page_size"`
+}
+
 type SearchResponse struct {
 	Articles []SearchInfo `json:"articles"`
 	Cursor   int64        `json:"cursor"`
 	IsEnd    bool         `json:"is_end"`
 }
 
-type ArticleDeleteRequest struct {
-	ArticleId int64 `json:"article_id"`
+type UploadCoverResponse struct {
+	CoverUrl string `json:"cover_url"`
 }

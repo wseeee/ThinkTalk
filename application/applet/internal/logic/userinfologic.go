@@ -41,6 +41,7 @@ func (l *UserInfoLogic) UserInfo() (resp *types.UserInfoResponse, err error) {
 		&user.FindByIdRequest{UserId: userId})
 	if err != nil {
 		logx.Errorf("findById error: %v", err)
+		return nil, err
 	}
 
 	return &types.UserInfoResponse{

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"ThinkTalk/application/article/rpc/internal/code"
 	"ThinkTalk/application/article/rpc/internal/svc"
@@ -74,6 +75,11 @@ func (l *ArticlesLogic) Articles(in *pb.ArticlesRequest) (*pb.ArticlesResponse, 
 	items := make([]*pb.ArticleItem, 0, len(hits))
 	for _, hit := range hits {
 		src := hit.Source
+		t, err := time.ParseInLocation("2006-01-02 15:04:05", src.PublishTime, time.Local)
+		var publishTimeUnix int64
+		if err == nil {
+			publishTimeUnix = t.Unix()
+		}
 		items = append(items, &pb.ArticleItem{
 			Id:           src.ArticleID,
 			Title:        src.Title,
@@ -83,7 +89,7 @@ func (l *ArticlesLogic) Articles(in *pb.ArticlesRequest) (*pb.ArticlesResponse, 
 			AuthorId:     src.AuthorID,
 			LikeCount:    src.LikeNum,
 			CommentCount: src.CommentNum,
-			PublishTime:  src.PublishUnix,
+			PublishTime:  publishTimeUnix,
 		})
 	}
 
@@ -94,7 +100,10 @@ func (l *ArticlesLogic) Articles(in *pb.ArticlesRequest) (*pb.ArticlesResponse, 
 		if in.SortType == types.SortLikeCount {
 			cursor = last.Source.LikeNum
 		} else {
-			cursor = last.Source.PublishUnix
+			t, err := time.ParseInLocation("2006-01-02 15:04:05", last.Source.PublishTime, time.Local)
+			if err == nil {
+				cursor = t.Unix()
+			}
 		}
 		if cursor < 0 {
 			cursor = 0
@@ -115,7 +124,12 @@ func buildArticlesByUserQuery(userId int64, sortField string, size, cursor, arti
 		userId, size, sortField,
 	)
 	if cursor > 0 && articleId > 0 {
-		q += fmt.Sprintf(`,"search_after":[%d,%d]`, cursor, articleId)
+		if sortField == "publish_time" {
+			cursorStr := time.Unix(cursor, 0).Local().Format("2006-01-02 15:04:05")
+			q += fmt.Sprintf(`,"search_after":["%s",%d]`, cursorStr, articleId)
+		} else {
+			q += fmt.Sprintf(`,"search_after":[%d,%d]`, cursor, articleId)
+		}
 	}
 	q += "}"
 	return q
@@ -133,7 +147,7 @@ type esListResult struct {
 				AuthorID    int64  `json:"author_id"`
 				LikeNum     int64  `json:"like_num"`
 				CommentNum  int64  `json:"comment_num"`
-				PublishUnix int64  `json:"publish_time"`
+				PublishTime string `json:"publish_time"`
 			} `json:"_source"`
 		} `json:"hits"`
 	} `json:"hits"`

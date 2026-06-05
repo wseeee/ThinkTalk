@@ -16,6 +16,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
+				Path:    "/all",
+				Handler: AllArticlesHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: ArticleDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/detail",
 				Handler: ArticleDetailHandler(serverCtx),
 			},
@@ -30,19 +40,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: PublishHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
-				Path:    "/delete",
-				Handler: ArticleDeleteHandler(serverCtx),
+				Method:  http.MethodGet,
+				Path:    "/search",
+				Handler: SearchHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/upload/cover",
 				Handler: UploadCoverHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/search",
-				Handler: SearchHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

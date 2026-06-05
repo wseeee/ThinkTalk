@@ -1,0 +1,3427 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ThinkTalk API Documentation",
+    "version": "1.0.0",
+    "description": "Standard OpenAPI 3.0 specification generated from Markdown API test guide."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8888",
+      "description": "applet-api (用户服务)"
+    },
+    {
+      "url": "http://localhost:80",
+      "description": "article-api (文章服务)"
+    },
+    {
+      "url": "http://localhost:8087",
+      "description": "chat-api (聊天服务)"
+    },
+    {
+      "url": "http://localhost:8890",
+      "description": "qa-api (问答服务)"
+    }
+  ],
+  "paths": {
+    "/v1/register": {
+      "post": {
+        "summary": "用户注册",
+        "description": "Section 2.1: 用户注册",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "user_id": 10001,
+                  "token": {
+                    "access_token": "eyJhbGciOiJIUzI1NiIs",
+                    "access_expire": 1717000000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "用户名",
+                    "type": "string"
+                  },
+                  "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "密码",
+                    "type": "string"
+                  },
+                  "verification_code": {
+                    "description": "验证码",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "mobile",
+                  "password",
+                  "verification_code"
+                ]
+              },
+              "example": {
+                "name": "testuser",
+                "mobile": "13800138000",
+                "password": "123456",
+                "verification_code": "123456"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/verification": {
+      "post": {
+        "summary": "发送验证码",
+        "description": "Section 2.2: 发送验证码",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "mobile"
+                ]
+              },
+              "example": {
+                "mobile": "13800138000"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/login": {
+      "post": {
+        "summary": "用户登录",
+        "description": "Section 2.3: 用户登录",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "userId": 10001,
+                  "token": {
+                    "access_token": "eyJhbGciOiJIUzI1NiIs",
+                    "access_expire": 1717000000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                  },
+                  "verification_code": {
+                    "description": "验证码",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "mobile",
+                  "verification_code"
+                ]
+              },
+              "example": {
+                "mobile": "13800138000",
+                "verification_code": "123456"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/user/info": {
+      "get": {
+        "summary": "获取用户信息",
+        "description": "Section 2.4: 获取用户信息",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "user_id": 10001,
+                  "username": "testuser",
+                  "avatar": "https://example.com/avatar.jpg"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/like/thumbup": {
+      "post": {
+        "summary": "点赞/踩",
+        "description": "Section 2.5: 点赞/踩",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "biz_id": "article",
+                  "obj_id": 1001,
+                  "like_num": 42,
+                  "dislike_num": 3
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "biz_id": {
+                    "description": "业务 ID (如 \"article\")",
+                    "type": "string"
+                  },
+                  "obj_id": {
+                    "description": "目标对象 ID",
+                    "type": "integer"
+                  },
+                  "like_type": {
+                    "description": "1=点赞, 2=踩",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "biz_id",
+                  "obj_id",
+                  "like_type"
+                ]
+              },
+              "example": {
+                "biz_id": "article",
+                "obj_id": 1001,
+                "like_type": 1
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "查询点赞状态",
+        "description": "Section 2.6: 查询点赞状态",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "target_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "目标对象 ID"
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "like_type": 1,
+                  "thumbup_time": 1716900000
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/follow/follow": {
+      "post": {
+        "summary": "关注用户",
+        "description": "Section 2.7: 关注用户",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "followed_user_id": {
+                    "description": "被关注用户 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "followed_user_id"
+                ]
+              },
+              "example": {
+                "followed_user_id": 10002
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/follow/unfollow": {
+      "post": {
+        "summary": "取消关注",
+        "description": "Section 2.8: 取消关注",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "followed_user_id": {
+                    "description": "被取消关注用户 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "followed_user_id"
+                ]
+              },
+              "example": {
+                "followed_user_id": 10002
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/follow/list": {
+      "get": {
+        "summary": "关注列表",
+        "description": "Section 2.9: 关注列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标, 默认 0"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量, 默认 10"
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "followed_user_id": 10002,
+                      "create_time": 1716900000,
+                      "fans_count": 128
+                    }
+                  ],
+                  "cursor": 10002,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/follow/fans": {
+      "get": {
+        "summary": "粉丝列表",
+        "description": "Section 2.10: 粉丝列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标, 默认 0"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量, 默认 10"
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "followed_user_id": 10002,
+                      "create_time": 1716900000,
+                      "fans_count": 128
+                    }
+                  ],
+                  "cursor": 10002,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/message/list": {
+      "get": {
+        "summary": "通知列表",
+        "description": "Section 2.11: 通知列表",
+        "parameters": [
+          {
+            "name": "notif_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "通知类型过滤"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "type": 1,
+                      "title": "有人点赞了你的文章",
+                      "content": "placeholder",
+                      "is_read": false,
+                      "trigger_user_id": 10002,
+                      "ref_id": 1001,
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1,
+                  "is_end": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/message/unread": {
+      "get": {
+        "summary": "未读通知数",
+        "description": "Section 2.12: 未读通知数",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "total": 5,
+                  "type_counts": {
+                    "1": 3,
+                    "2": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/message/read": {
+      "post": {
+        "summary": "标记单条通知已读",
+        "description": "Section 2.13: 标记单条通知已读",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notification_id": {
+                    "description": "通知 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "notification_id"
+                ]
+              },
+              "example": {
+                "notification_id": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/message/readall": {
+      "post": {
+        "summary": "标记全部通知已读",
+        "description": "Section 2.14: 标记全部通知已读",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "notif_type": {
+                    "description": "通知类型, 不传则全部标记",
+                    "type": "integer"
+                  }
+                },
+                "required": []
+              },
+              "example": {
+                "notif_type": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/concerned/add": {
+      "post": {
+        "summary": "收藏",
+        "description": "Section 2.15: 收藏",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "biz_id": {
+                    "description": "业务 ID",
+                    "type": "string"
+                  },
+                  "obj_id": {
+                    "description": "目标对象 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "biz_id",
+                  "obj_id"
+                ]
+              },
+              "example": {
+                "biz_id": "article",
+                "obj_id": 1001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/concerned/cancel": {
+      "post": {
+        "summary": "取消收藏",
+        "description": "Section 2.16: 取消收藏",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "biz_id": {
+                    "description": "业务 ID",
+                    "type": "string"
+                  },
+                  "obj_id": {
+                    "description": "目标对象 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "biz_id",
+                  "obj_id"
+                ]
+              },
+              "example": {
+                "biz_id": "article",
+                "obj_id": 1001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/concerned/check": {
+      "get": {
+        "summary": "检查收藏状态",
+        "description": "Section 2.17: 检查收藏状态",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "obj_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "目标对象 ID"
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "is_concerned": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/concerned/list": {
+      "get": {
+        "summary": "收藏列表",
+        "description": "Section 2.18: 收藏列表",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          },
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "biz_id": "article",
+                      "obj_id": 1001,
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1,
+                  "is_end": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/member/info": {
+      "get": {
+        "summary": "会员信息",
+        "description": "Section 2.19: 会员信息",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "user_id": 10001,
+                  "level": 2,
+                  "level_name": "黄金会员",
+                  "expire_time": 1720000000,
+                  "status": 1
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/member/right": {
+      "get": {
+        "summary": "会员权益检查",
+        "description": "Section 2.20: 会员权益检查",
+        "parameters": [
+          {
+            "name": "right_key",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "权益标识"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "has_right": true,
+                  "level": 2
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/tag/create": {
+      "post": {
+        "summary": "创建标签",
+        "description": "Section 2.21: 创建标签",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "tag_id": 1001
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                  },
+                  "tag_desc": {
+                    "description": "标签描述",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tag_name"
+                ]
+              },
+              "example": {
+                "tag_name": "Go语言",
+                "tag_desc": "Go 相关技术讨论"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tag/update": {
+      "post": {
+        "summary": "更新标签",
+        "description": "Section 2.22: 更新标签",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tag_id": {
+                    "description": "标签 ID",
+                    "type": "integer"
+                  },
+                  "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                  },
+                  "tag_desc": {
+                    "description": "标签描述",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "tag_id",
+                  "tag_name"
+                ]
+              },
+              "example": {
+                "tag_id": 1001,
+                "tag_name": "Go-Zero 核心实践",
+                "tag_desc": "Go-Zero 深度解析"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tag/delete": {
+      "post": {
+        "summary": "删除标签",
+        "description": "Section 2.23: 删除标签",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tag_id": {
+                    "description": "标签 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "tag_id"
+                ]
+              },
+              "example": {
+                "tag_id": 1001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tag/detail": {
+      "get": {
+        "summary": "标签详情",
+        "description": "Section 2.24: 标签详情",
+        "parameters": [
+          {
+            "name": "tag_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "标签 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "tag_id": 1001,
+                  "tag_name": "Go语言",
+                  "tag_desc": "Go 相关技术讨论",
+                  "resource_count": 42,
+                  "create_time": 1716900000
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/tag/list": {
+      "get": {
+        "summary": "标签列表",
+        "description": "Section 2.25: 标签列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "tag_id": 1001,
+                      "tag_name": "Go语言",
+                      "tag_desc": "Go 相关技术讨论",
+                      "resource_count": 42,
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1001,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/tag/hot": {
+      "get": {
+        "summary": "热门标签",
+        "description": "Section 2.26: 热门标签",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "数量上限"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "tag_id": 1001,
+                      "tag_name": "Go语言",
+                      "tag_desc": "Go 相关技术讨论",
+                      "resource_count": 42,
+                      "create_time": 1716900000
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/tag/resource/add": {
+      "post": {
+        "summary": "打标签",
+        "description": "Section 2.27: 打标签",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "biz_id": {
+                    "description": "业务 ID (如 \"article\")",
+                    "type": "string"
+                  },
+                  "target_id": {
+                    "description": "资源 ID",
+                    "type": "integer"
+                  },
+                  "tag_id": {
+                    "description": "标签 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "biz_id",
+                  "target_id",
+                  "tag_id"
+                ]
+              },
+              "example": {
+                "biz_id": "article",
+                "target_id": 1001,
+                "tag_id": 1001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tag/resource/remove": {
+      "post": {
+        "summary": "去标签",
+        "description": "Section 2.28: 去标签",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "biz_id": {
+                    "description": "业务 ID",
+                    "type": "string"
+                  },
+                  "target_id": {
+                    "description": "资源 ID",
+                    "type": "integer"
+                  },
+                  "tag_id": {
+                    "description": "标签 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "biz_id",
+                  "target_id",
+                  "tag_id"
+                ]
+              },
+              "example": {
+                "biz_id": "article",
+                "target_id": 1001,
+                "tag_id": 1001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tag/resource/list": {
+      "get": {
+        "summary": "标签下的资源列表",
+        "description": "Section 2.29: 标签下的资源列表",
+        "parameters": [
+          {
+            "name": "tag_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "标签 ID"
+          },
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID 过滤"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "target_id": 1001,
+                      "biz_id": "article",
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1001,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/tag/resource/tags": {
+      "get": {
+        "summary": "资源的标签列表",
+        "description": "Section 2.30: 资源的标签列表",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "target_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "资源 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "tag_id": 1001,
+                      "tag_name": "Go语言",
+                      "tag_desc": "Go 相关技术讨论",
+                      "resource_count": 42,
+                      "create_time": 1716900000
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/reply/create": {
+      "post": {
+        "summary": "发表评论",
+        "description": "Section 2.31: 发表评论",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "reply_id": 2001
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "biz_id": {
+                    "description": "业务 ID",
+                    "type": "string"
+                  },
+                  "target_id": {
+                    "description": "评论目标 ID",
+                    "type": "integer"
+                  },
+                  "be_reply_user_id": {
+                    "description": "被回复用户 ID",
+                    "type": "integer"
+                  },
+                  "parent_id": {
+                    "description": "父评论 ID (0=根评论)",
+                    "type": "integer"
+                  },
+                  "content": {
+                    "description": "评论内容",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "biz_id",
+                  "target_id",
+                  "content"
+                ]
+              },
+              "example": {
+                "biz_id": "article",
+                "target_id": 1001,
+                "content": "写得很不错!"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reply/delete": {
+      "post": {
+        "summary": "删除评论",
+        "description": "Section 2.32: 删除评论",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reply_id": {
+                    "description": "评论 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "reply_id"
+                ]
+              },
+              "example": {
+                "reply_id": 2001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reply/detail": {
+      "get": {
+        "summary": "评论详情",
+        "description": "Section 2.33: 评论详情",
+        "parameters": [
+          {
+            "name": "reply_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "评论 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "reply": {
+                    "reply_id": 2001,
+                    "biz_id": "article",
+                    "target_id": 1001,
+                    "reply_user_id": 10001,
+                    "be_reply_user_id": 0,
+                    "parent_id": 0,
+                    "content": "写得很不错!",
+                    "like_num": 5,
+                    "create_time": 1716900000,
+                    "sub_replies": []
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/reply/list": {
+      "get": {
+        "summary": "评论列表",
+        "description": "Section 2.34: 评论列表",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "target_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "目标 ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          },
+          {
+            "name": "sort_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "排序: 0=时间倒序, 1=点赞倒序"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "reply_id": 2001,
+                      "biz_id": "article",
+                      "target_id": 1001,
+                      "reply_user_id": 10001,
+                      "be_reply_user_id": 0,
+                      "parent_id": 0,
+                      "content": "写得很不错!",
+                      "like_num": 5,
+                      "create_time": 1716900000,
+                      "sub_replies": []
+                    }
+                  ],
+                  "cursor": 2001,
+                  "is_end": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/reply/count": {
+      "get": {
+        "summary": "评论计数",
+        "description": "Section 2.35: 评论计数",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "target_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "目标 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "reply_num": 28,
+                  "reply_root_num": 10
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/concerned/count": {
+      "get": {
+        "summary": "收藏计数",
+        "description": "Section 2.36: 收藏计数",
+        "parameters": [
+          {
+            "name": "biz_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "业务 ID"
+          },
+          {
+            "name": "obj_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "目标对象 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "concerned_num": 128
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/member/upgrade": {
+      "post": {
+        "summary": "升级会员",
+        "description": "Section 2.37: 升级会员",
+        "parameters": [
+          {
+            "name": "X-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "用于 API 签名校验"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "description": "会员等级",
+                    "type": "integer"
+                  },
+                  "duration_days": {
+                    "description": "购买天数",
+                    "type": "integer"
+                  },
+                  "transaction_id": {
+                    "description": "交易流水号",
+                    "type": "string"
+                  },
+                  "amount": {
+                    "description": "支付金额(分)",
+                    "type": "integer"
+                  },
+                  "pay_channel": {
+                    "description": "支付渠道",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "level",
+                  "duration_days",
+                  "transaction_id",
+                  "amount",
+                  "pay_channel"
+                ]
+              },
+              "example": {
+                "level": 2,
+                "duration_days": 365,
+                "transaction_id": "TXN20260527001",
+                "amount": 29900,
+                "pay_channel": "wechat"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/member/orders": {
+      "get": {
+        "summary": "会员订单列表",
+        "description": "Section 2.38: 会员订单列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "user_id": 10001,
+                      "level": 2,
+                      "duration_days": 365,
+                      "amount": 29900,
+                      "pay_channel": "wechat",
+                      "status": 1,
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1,
+                  "is_end": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "applet-api (用户服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/article/upload/cover": {
+      "post": {
+        "summary": "上传文章封面",
+        "description": "Section 3.1: 上传文章封面",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "cover_url": "https://cdn.example.com/covers/xxx.jpg"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "description": "图片文件",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/article/publish": {
+      "post": {
+        "summary": "发布文章",
+        "description": "Section 3.2: 发布文章",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "article_id": 1001
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "description": "文章标题",
+                    "type": "string"
+                  },
+                  "content": {
+                    "description": "文章内容",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "文章摘要",
+                    "type": "string"
+                  },
+                  "cover": {
+                    "description": "封面图片 URL",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title",
+                  "content"
+                ]
+              },
+              "example": {
+                "title": "Go-Zero 微服务实践",
+                "content": "# Go-Zero\n\n这是一篇关于 Go-Zero 的文章",
+                "description": "Go-Zero 微服务框架入门指南",
+                "cover": "https://cdn.example.com/covers/xxx.jpg"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/article/detail": {
+      "get": {
+        "summary": "文章详情",
+        "description": "Section 3.3: 文章详情",
+        "parameters": [
+          {
+            "name": "article_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "文章 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "title": "Go-Zero 微服务实践",
+                  "content": "placeholder",
+                  "description": "placeholder",
+                  "cover": "placeholder",
+                  "author_id": "10001",
+                  "author_name": "testuser"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/article/list": {
+      "get": {
+        "summary": "文章列表",
+        "description": "Section 3.4: 文章列表",
+        "parameters": [
+          {
+            "name": "author_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "按作者过滤"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          },
+          {
+            "name": "sort_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "排序方式"
+          },
+          {
+            "name": "article_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "文章 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "articles": [
+                    {
+                      "article_id": 1001,
+                      "title": "Go-Zero 实践",
+                      "description": "placeholder",
+                      "cover": "placeholder"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/article/search": {
+      "get": {
+        "summary": "搜索文章",
+        "description": "Section 3.5: 搜索文章",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "搜索关键词"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "articles": [
+                    {
+                      "article_id": 1001,
+                      "title": "Go-Zero 实践",
+                      "description": "placeholder",
+                      "cover": "placeholder",
+                      "author_id": 10001,
+                      "author_name": "testuser",
+                      "like_num": 42,
+                      "comment_num": 8,
+                      "publish_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1001,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/article/delete": {
+      "post": {
+        "summary": "删除文章",
+        "description": "Section 3.6: 删除文章",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "article_id": {
+                    "description": "文章 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "article_id"
+                ]
+              },
+              "example": {
+                "article_id": 1001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/article/all": {
+      "get": {
+        "summary": "获取所有文章的列表",
+        "description": "Section 3.7: 获取所有文章的列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "article-api (文章服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/conversations": {
+      "get": {
+        "summary": "会话列表",
+        "description": "Section 4.1: 会话列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "target_user_id": 10002,
+                      "last_message": "你好",
+                      "last_message_time": 1716900000,
+                      "unread_count": 3
+                    }
+                  ],
+                  "cursor": 1,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "chat-api (聊天服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/messages": {
+      "get": {
+        "summary": "消息列表",
+        "description": "Section 4.2: 消息列表",
+        "parameters": [
+          {
+            "name": "conversation_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "会话 ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "conversation_id": 1,
+                      "sender_id": 10001,
+                      "receiver_id": 10002,
+                      "content": "你好",
+                      "msg_type": 1,
+                      "is_read": true,
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 1,
+                  "is_end": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "chat-api (聊天服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/send": {
+      "post": {
+        "summary": "发送消息 (REST)",
+        "description": "Section 4.3: 发送消息 (REST)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "chat-api (聊天服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "receiver_id": {
+                    "description": "接收者 ID",
+                    "type": "integer"
+                  },
+                  "content": {
+                    "description": "消息内容",
+                    "type": "string"
+                  },
+                  "msg_type": {
+                    "description": "消息类型 (1=文本)",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "receiver_id",
+                  "content",
+                  "msg_type"
+                ]
+              },
+              "example": {
+                "receiver_id": 10002,
+                "content": "你好",
+                "msg_type": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/chat/markread": {
+      "post": {
+        "summary": "标记会话已读",
+        "description": "Section 4.4: 标记会话已读",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "chat-api (聊天服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "description": "会话 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "conversation_id"
+                ]
+              },
+              "example": {
+                "conversation_id": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/chat/unread": {
+      "get": {
+        "summary": "未读消息数",
+        "description": "Section 4.5: 未读消息数",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "total": 5
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "chat-api (聊天服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/ws": {
+      "get": {
+        "summary": "WebSocket 连接",
+        "description": "Section 4.6: WebSocket 连接",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "JWT Token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "chat-api (聊天服务)"
+        ]
+      }
+    },
+    "/v1/qa/publish": {
+      "post": {
+        "summary": "发布问题",
+        "description": "Section 6.1: 发布问题",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "question_id": 3001
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "description": "问题标题",
+                    "type": "string"
+                  },
+                  "content": {
+                    "description": "问题内容",
+                    "type": "string"
+                  },
+                  "tag_ids": {
+                    "description": "标签 ID 列表",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title",
+                  "content"
+                ]
+              },
+              "example": {
+                "title": "Go-Zero 如何集成 Redis?",
+                "content": "刚开始学 go-zero，想知道怎么配置 Redis",
+                "tag_ids": "1,2,3"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/qa/answer": {
+      "post": {
+        "summary": "回答问题",
+        "description": "Section 6.2: 回答问题",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "answer_id": 4001
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question_id": {
+                    "description": "问题 ID",
+                    "type": "integer"
+                  },
+                  "content": {
+                    "description": "回答内容",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "question_id",
+                  "content"
+                ]
+              },
+              "example": {
+                "question_id": 3001,
+                "content": "可以在 etc/xxx.yaml 中配置 Redis"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/qa/accept": {
+      "post": {
+        "summary": "采纳回答",
+        "description": "Section 6.3: 采纳回答",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question_id": {
+                    "description": "问题 ID",
+                    "type": "integer"
+                  },
+                  "answer_id": {
+                    "description": "回答 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "question_id",
+                  "answer_id"
+                ]
+              },
+              "example": {
+                "question_id": 3001,
+                "answer_id": 4001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/qa/list": {
+      "get": {
+        "summary": "问题列表",
+        "description": "Section 6.4: 问题列表",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          },
+          {
+            "name": "sort_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "排序: 0=时间, 1=热度"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 3001,
+                      "title": "Go-Zero 如何集成 Redis?",
+                      "content": "刚开始学 go-zero",
+                      "author_id": 10001,
+                      "answer_num": 5,
+                      "view_num": 128,
+                      "tag_ids": "1,2,3",
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 3001,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/qa/detail": {
+      "get": {
+        "summary": "问题详情",
+        "description": "Section 6.5: 问题详情",
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "问题 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "question": {
+                    "id": 3001,
+                    "title": "Go-Zero 如何集成 Redis?",
+                    "content": "刚开始学 go-zero",
+                    "author_id": 10001,
+                    "answer_num": 5,
+                    "view_num": 128,
+                    "tag_ids": "1,2,3",
+                    "create_time": 1716900000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/qa/delete": {
+      "post": {
+        "summary": "删除问题",
+        "description": "Section 6.6: 删除问题",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question_id": {
+                    "description": "问题 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "question_id"
+                ]
+              },
+              "example": {
+                "question_id": 3001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/qa/answers": {
+      "get": {
+        "summary": "回答列表",
+        "description": "Section 6.7: 回答列表",
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "问题 ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 4001,
+                      "question_id": 3001,
+                      "author_id": 10002,
+                      "content": "redigo 是最简单的选择",
+                      "is_accepted": true,
+                      "like_num": 15,
+                      "reply_num": 3,
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 4001,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/qa/answer/delete": {
+      "post": {
+        "summary": "删除回答",
+        "description": "Section 6.8: 删除回答",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "成功响应"
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "answer_id": {
+                    "description": "回答 ID",
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "answer_id"
+                ]
+              },
+              "example": {
+                "answer_id": 4001
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/qa/search": {
+      "get": {
+        "summary": "搜索问题",
+        "description": "Section 6.9: 搜索问题",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "搜索关键词"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "分页游标"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "每页数量"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功响应",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "id": 3001,
+                      "title": "Go-Zero 如何集成 Redis?",
+                      "content": "刚开始学 go-zero",
+                      "author_id": 10001,
+                      "answer_num": 5,
+                      "tag_ids": "1,2,3",
+                      "create_time": 1716900000
+                    }
+                  ],
+                  "cursor": 3001,
+                  "is_end": false
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "qa-api (问答服务)"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "输入 access_token 进行鉴权"
+      }
+    }
+  }
+}

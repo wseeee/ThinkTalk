@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
 	"ThinkTalk/application/article/rpc/internal/svc"
 	"ThinkTalk/application/article/rpc/pb"
@@ -76,7 +77,16 @@ func (l *SearchArticlesLogic) SearchArticles(in *pb.SearchRequest) (*pb.SearchRe
 
 	var cursor int64
 	if len(hits) > 0 && !isEnd {
-		cursor = hits[len(hits)-1].Sort[0]
+		sortVal := hits[len(hits)-1].Sort[0]
+		switch val := sortVal.(type) {
+		case string:
+			t, err := time.ParseInLocation("2006-01-02 15:04:05", val, time.Local)
+			if err == nil {
+				cursor = t.Unix()
+			}
+		case float64:
+			cursor = int64(val)
+		}
 	}
 
 	return &pb.SearchResponse{
@@ -87,14 +97,27 @@ func (l *SearchArticlesLogic) SearchArticles(in *pb.SearchRequest) (*pb.SearchRe
 }
 
 func buildSearchQuery(keyword string, size int64, cursor int64) string {
-	q := fmt.Sprintf(
-		`{"query":{"bool":{"must":[{"multi_match":{"query":"%s","fields":["title^3","content","description"]}},{"term":{"status":2}}]}},"size":%d`,
-		keyword, size,
-	)
-	if cursor > 0 {
-		q += fmt.Sprintf(`,"search_after":[%d]`, cursor)
+	var q string
+	if keyword == "" {
+		q = fmt.Sprintf(
+			`{"query":{"bool":{"must":[{"term":{"status":2}}]}},"size":%d,"sort":[{"publish_time":"desc"},{"article_id":"asc"}]`,
+			size,
+		)
+		if cursor > 0 {
+			cursorStr := time.Unix(cursor, 0).Local().Format("2006-01-02 15:04:05")
+			q += fmt.Sprintf(`,"search_after":["%s"]`, cursorStr)
+		}
+	} else {
+		q = fmt.Sprintf(
+			`{"query":{"bool":{"must":[{"multi_match":{"query":"%s","fields":["title^3","content","description"]}},{"term":{"status":2}}]}},"size":%d`,
+			keyword, size,
+		)
+		if cursor > 0 {
+			q += fmt.Sprintf(`,"search_after":[%d]`, cursor)
+		}
+		q += `,"sort":[{"_score":"desc"},{"article_id":"asc"}]`
 	}
-	q += `,"sort":[{"_score":"desc"},{"article_id":"asc"}]}`
+	q += "}"
 	return q
 }
 
@@ -112,7 +135,7 @@ type esSearchResult struct {
 				CommentNum  int64  `json:"comment_num"`
 				PublishTime string `json:"publish_time"`
 			} `json:"_source"`
-			Sort []int64 `json:"sort"`
+			Sort []interface{} `json:"sort"`
 		} `json:"hits"`
 	} `json:"hits"`
 }

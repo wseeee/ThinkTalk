@@ -28,12 +28,21 @@ Thumbs.db
 # Env & secrets
 .env
 *.local.yaml
-.claude
 .md
 
 
 # Logs
+/logs/
 *.log
 
 # Temp
 tmp/
+
+
+.json
+.bat
+.sh
+
+./logs
+./bin
+./claude

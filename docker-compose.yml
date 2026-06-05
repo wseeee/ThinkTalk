@@ -1,3 +1,6 @@
+x-environment: &env
+  env_file: .env
+
 services:
   # ==================== 构建器（只跑一次，产出共享镜像） ====================
   builder:
@@ -20,6 +23,7 @@ services:
       - "8888:8888"
     volumes:
       - ./application/applet/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/applet-api"]
     command: ["-f", "/app/etc/applet-api.yaml"]
 
@@ -34,6 +38,7 @@ services:
       - "8889:80"
     volumes:
       - ./application/article/api/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/article-api"]
     command: ["-f", "/app/etc/article-api.yaml"]
 
@@ -48,6 +53,7 @@ services:
       - "8088:8087"
     volumes:
       - ./application/chat/api/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/chat-api"]
     command: ["-f", "/app/etc/chat-api.yaml"]
 
@@ -62,6 +68,7 @@ services:
       - "8890:8890"
     volumes:
       - ./application/qa/api/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/qa-api"]
     command: ["-f", "/app/etc/qa-api.yaml"]
 
@@ -77,6 +84,7 @@ services:
       - "8080:8080"
     volumes:
       - ./application/user/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/user-rpc"]
     command: ["-f", "/app/etc/user.yaml"]
 
@@ -91,6 +99,7 @@ services:
       - "9090:9090"
     volumes:
       - ./application/article/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/article-rpc"]
     command: ["-f", "/app/etc/article.yaml"]
 
@@ -106,6 +115,7 @@ services:
       - "9107:9107"
     volumes:
       - ./application/chat/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/chat-rpc"]
     command: ["-f", "/app/etc/chat.yaml"]
 
@@ -121,6 +131,7 @@ services:
       - "9105:9105"
     volumes:
       - ./application/concerned/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/concerned-rpc"]
     command: ["-f", "/app/etc/concerned.yaml"]
 
@@ -136,6 +147,7 @@ services:
       - "9111:9101"
     volumes:
       - ./application/follow/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/follow-rpc"]
     command: ["-f", "/app/etc/follow.yaml"]
 
@@ -150,6 +162,7 @@ services:
       - "8082:8082"
     volumes:
       - ./application/like/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/like-rpc"]
     command: ["-f", "/app/etc/like.yaml"]
 
@@ -164,6 +177,7 @@ services:
       - "8091:8091"
     volumes:
       - ./application/member/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/member-rpc"]
     command: ["-f", "/app/etc/member.yaml"]
 
@@ -179,6 +193,7 @@ services:
       - "9104:9104"
     volumes:
       - ./application/message/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/message-rpc"]
     command: ["-f", "/app/etc/message.yaml"]
 
@@ -194,6 +209,7 @@ services:
       - "9106:9106"
     volumes:
       - ./application/qa/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/qa-rpc"]
     command: ["-f", "/app/etc/qa.yaml"]
 
@@ -209,6 +225,7 @@ services:
       - "9102:9102"
     volumes:
       - ./application/reply/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/reply-rpc"]
     command: ["-f", "/app/etc/reply.yaml"]
 
@@ -224,6 +241,7 @@ services:
       - "9103:9103"
     volumes:
       - ./application/tag/rpc/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/tag-rpc"]
     command: ["-f", "/app/etc/tag.yaml"]
 
@@ -239,6 +257,7 @@ services:
       - "9101:9101"
     volumes:
       - ./application/article/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/article-mq"]
     command: ["-f", "/app/etc/article.yaml"]
 
@@ -251,6 +270,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/chat/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/chat-mq"]
     command: ["-f", "/app/etc/chat.yaml"]
 
@@ -263,6 +283,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/concerned/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/concerned-mq"]
     command: ["-f", "/app/etc/concerned.yaml"]
 
@@ -275,6 +296,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/like/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/like-mq"]
     command: ["-f", "/app/etc/like.yaml"]
 
@@ -287,6 +309,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/member/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/member-mq"]
     command: ["-f", "/app/etc/member.yaml"]
 
@@ -299,6 +322,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/message/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/message-mq"]
     command: ["-f", "/app/etc/message.yaml"]
 
@@ -311,6 +335,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/qa/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/qa-mq"]
     command: ["-f", "/app/etc/qa.yaml"]
 
@@ -323,5 +348,6 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./application/reply/mq/etc:/app/etc
+    <<: *env
     entrypoint: ["/app/reply-mq"]
     command: ["-f", "/app/etc/reply.yaml"]
