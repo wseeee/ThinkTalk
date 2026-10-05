@@ -1,0 +1,26 @@
+Name: reply.rpc
+ListenOn: 0.0.0.0:8083
+Timeout: 10000
+Etcd:
+  Hosts:
+  - ${ETCD_HOST}:${ETCD_PORT}
+  Key: reply.rpc
+KqPusherConf:
+  Brokers:
+    - ${KAFKA_HOST}:${KAFKA_PORT}
+  Topic: thinktalk_reply
+DB:
+  DataSource: "${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_reply?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+BizRedis:
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
+  Type: node
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9102
+  Path: /metrics
+Telemetry:
+  Endpoint: http://127.0.0.1:14268/api/traces

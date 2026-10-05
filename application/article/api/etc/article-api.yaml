@@ -1,0 +1,29 @@
+Name: article-api
+Host: 0.0.0.0
+Port: 8889
+Timeout: 10000
+Auth:
+  AccessSecret: ${JWT_ACCESS_SECRET}
+  AccessExpire: 604800
+  RefreshSecret: ${JWT_REFRESH_SECRET}
+  RefreshExpire: 2592000
+  RefreshAfter: 604800
+
+MinIO:
+  Endpoint: ${MINIO_ENDPOINT}
+  AccessKeyID: ${MINIO_ACCESS_KEY_ID}
+  AccessKeySecret: ${MINIO_ACCESS_KEY_SECRET}
+  BucketName: ${MINIO_BUCKET_NAME}
+  Location: zh-east-1
+  UseSSL: false
+
+ArticleRPC:
+  Endpoints:
+    - 127.0.0.1:9090
+  NonBlock: true
+  Timeout: 10000
+UserRPC:
+  Endpoints:
+    - 127.0.0.1:8080
+  NonBlock: true
+  Timeout: 10000

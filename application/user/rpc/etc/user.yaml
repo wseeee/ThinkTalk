@@ -1,0 +1,18 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Timeout: 10000
+Etcd:
+  Hosts:
+  - ${ETCD_HOST}:${ETCD_PORT}
+  Key: user.rpc
+DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_user?parseTime=true
+CacheRedis:
+  - Host: ${REDIS_HOST}:${REDIS_PORT}
+    Pass: ${REDIS_PASS}
+    Type: node
+    DB : 0
+BizRedis:
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
+  Type: node
+  DB : 0

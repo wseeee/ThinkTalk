@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package service;
+option go_package="./pb";
+
+service Chat {
+  // 发送消息
+  rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
+  // 会话列表
+  rpc Conversations (ConversationsRequest) returns (ConversationsResponse);
+  // 消息列表
+  rpc Messages (MessagesRequest) returns (MessagesResponse);
+  // 标记已读
+  rpc MarkRead (MarkReadRequest) returns (MarkReadResponse);
+  // 未读计数
+  rpc UnreadCount (UnreadCountRequest) returns (UnreadCountResponse);
+}
+
+// -------------------- 发送消息 --------------------
+
+message SendMessageRequest {
+  int64 senderId = 1;   // 发送者
+  int64 receiverId = 2; // 接收者
+  string content = 3;   // 消息内容
+  int32 msgType = 4;    // 消息类型 0:文本 1:图片
+}
+
+message SendMessageResponse {
+  int64 messageId = 1; // 消息ID
+}
+
+// -------------------- 会话列表 --------------------
+
+message ConversationsRequest {
+  int64 userId = 1;    // 用户ID
+  int64 cursor = 2;    // 游标
+  int64 pageSize = 3;  // 页大小
+}
+
+message ConversationItem {
+  int64 id = 1;              // 会话ID
+  int64 targetUserId = 2;    // 对方用户ID
+  string lastMessage = 3;    // 最后一条消息
+  int64 lastMessageTime = 4; // 最后消息时间
+  int64 unreadCount = 5;     // 未读数
+}
+
+message ConversationsResponse {
+  repeated ConversationItem items = 1;
+  int64 cursor = 2;
+  bool isEnd = 3;
+}
+
+// -------------------- 消息列表 --------------------
+
+message MessagesRequest {
+  int64 conversationId = 1; // 会话ID
+  int64 cursor = 2;         // 游标
+  int64 pageSize = 3;       // 页大小
+}
+
+message MessageItem {
+  int64 id = 1;             // 消息ID
+  int64 conversationId = 2; // 会话ID
+  int64 senderId = 3;       // 发送者ID
+  int64 receiverId = 4;     // 接收者ID
+  string content = 5;       // 内容
+  int32 msgType = 6;        // 消息类型
+  bool isRead = 7;          // 是否已读
+  int64 createTime = 8;     // 创建时间
+}
+
+message MessagesResponse {
+  repeated MessageItem items = 1;
+  int64 cursor = 2;
+  bool isEnd = 3;
+}
+
+// -------------------- 标记已读 --------------------
+
+message MarkReadRequest {
+  int64 userId = 1;         // 用户ID
+  int64 conversationId = 2; // 会话ID
+}
+
+message MarkReadResponse {
+}
+
+// -------------------- 未读计数 --------------------
+
+message UnreadCountRequest {
+  int64 userId = 1; // 用户ID
+}
+
+message UnreadCountResponse {
+  int64 total = 1; // 总未读数
+}

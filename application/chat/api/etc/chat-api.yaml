@@ -1,0 +1,18 @@
+Name: chat-api
+Host: 0.0.0.0
+Port: 8088
+Timeout: 10000
+
+Auth:
+  AccessSecret: ${JWT_ACCESS_SECRET}
+  AccessExpire: 604800
+
+ChatRpc:
+  Endpoints:
+    - 127.0.0.1:8087
+  Timeout: 10000
+
+BizRedis:
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
+  Type: node

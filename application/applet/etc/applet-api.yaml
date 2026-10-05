@@ -1,0 +1,56 @@
+Name: applet-api
+Host: 0.0.0.0
+Port: 8888
+Timeout: 10000
+
+Auth:
+    AccessSecret: ${JWT_ACCESS_SECRET}
+    AccessExpire: 604800
+    RefreshSecret: ${JWT_REFRESH_SECRET}
+    RefreshExpire: 2592000
+    RefreshAfter: 604800
+UserRpc:
+    Endpoints:
+        - 127.0.0.1:8080
+    NonBlock: true
+    Timeout: 10000
+LikeRpc:
+    Endpoints:
+        - 127.0.0.1:8082
+    NonBlock: true
+    Timeout: 10000
+FollowRpc:
+    Endpoints:
+        - 127.0.0.1:8081
+    NonBlock: true
+    Timeout: 10000
+MessageRpc:
+    Endpoints:
+        - 127.0.0.1:8085
+    NonBlock: true
+    Timeout: 10000
+ConcernedRpc:
+    Endpoints:
+        - 127.0.0.1:8086
+    NonBlock: true
+    Timeout: 10000
+MemberRpc:
+    Endpoints:
+        - 127.0.0.1:8091
+    NonBlock: true
+    Timeout: 10000
+TagRpc:
+    Endpoints:
+        - 127.0.0.1:8084
+    NonBlock: true
+    Timeout: 10000
+ReplyRpc:
+    Endpoints:
+        - 127.0.0.1:8083
+    NonBlock: true
+    Timeout: 10000
+Redis :
+    Host: ${REDIS_HOST}:${REDIS_PORT}
+    Pass: ${REDIS_PASS}
+    Type: node
+    DB: 0

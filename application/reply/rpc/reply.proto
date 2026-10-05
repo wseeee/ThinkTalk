@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package service;
+option go_package="./pb";
+
+service Reply {
+  // 发表评论
+  rpc CreateReply (CreateReplyRequest) returns (CreateReplyResponse);
+  // 删除评论
+  rpc DeleteReply (DeleteReplyRequest) returns (DeleteReplyResponse);
+  // 评论详情
+  rpc ReplyDetail (ReplyDetailRequest) returns (ReplyDetailResponse);
+  // 评论列表
+  rpc ReplyList (ReplyListRequest) returns (ReplyListResponse);
+  // 评论计数
+  rpc ReplyCount (ReplyCountRequest) returns (ReplyCountResponse);
+}
+
+// -------------------- 发表评论 --------------------
+
+message CreateReplyRequest {
+  string bizId = 1;        // 业务ID
+  int64 targetId = 2;      // 评论目标id
+  int64 replyUserId = 3;   // 评论用户ID
+  int64 beReplyUserId = 4; // 被回复用户ID
+  int64 parentId = 5;      // 父评论ID (0表示根评论)
+  string content = 6;      // 内容
+}
+
+message CreateReplyResponse {
+  int64 replyId = 1; // 评论ID
+}
+
+// -------------------- 删除评论 --------------------
+
+message DeleteReplyRequest {
+  int64 replyId = 1; // 评论ID
+  int64 userId = 2;  // 操作用户ID
+}
+
+message DeleteReplyResponse {
+}
+
+// -------------------- 评论详情 --------------------
+
+message ReplyDetailRequest {
+  int64 replyId = 1; // 评论ID
+}
+
+message ReplyDetailResponse {
+  ReplyItem reply = 1; // 评论详情
+}
+
+// -------------------- 评论列表 --------------------
+
+message ReplyListRequest {
+  string bizId = 1;    // 业务ID
+  int64 targetId = 2;  // 评论目标id
+  int64 cursor = 3;    // 游标
+  int64 pageSize = 4;  // 页大小
+  int32 sortType = 5;  // 排序类型 0:按时间倒序 1:按点赞数倒序
+}
+
+message ReplyItem {
+  int64 replyId = 1;       // 评论ID
+  string bizId = 2;        // 业务ID
+  int64 targetId = 3;      // 评论目标id
+  int64 replyUserId = 4;   // 评论用户ID
+  int64 beReplyUserId = 5; // 被回复用户ID
+  int64 parentId = 6;      // 父评论ID
+  string content = 7;      // 内容
+  int64 likeNum = 8;       // 点赞数
+  int64 createTime = 9;    // 创建时间
+  repeated ReplyItem subReplies = 10; // 子回复列表
+}
+
+message ReplyListResponse {
+  repeated ReplyItem items = 1; // 评论列表
+  int64 cursor = 2;             // 下一页游标
+  bool isEnd = 3;               // 是否最后一页
+}
+
+// -------------------- 评论计数 --------------------
+
+message ReplyCountRequest {
+  string bizId = 1;    // 业务ID
+  int64 targetId = 2;  // 评论目标id
+}
+
+message ReplyCountResponse {
+  int64 replyNum = 1;     // 评论总数
+  int64 replyRootNum = 2; // 根评论总数
+}

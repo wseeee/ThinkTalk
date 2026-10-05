@@ -1,0 +1,21 @@
+Name: article.rpc
+ListenOn: 0.0.0.0:9090
+Timeout: 10000
+Etcd:
+  Hosts:
+  - ${ETCD_HOST}:${ETCD_PORT}
+  Key: article.rpc
+DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_article?parseTime=true&loc=Local
+CacheRedis:
+  - Host: ${REDIS_HOST}:${REDIS_PORT}
+    Pass: ${REDIS_PASS}
+    Type: node
+Es:
+  Addresses:
+    - http://localhost:9200/
+  Username:
+  Password:
+BizRedis:
+  Host: ${REDIS_HOST}:${REDIS_PORT}
+  Pass: ${REDIS_PASS}
+  Type: node

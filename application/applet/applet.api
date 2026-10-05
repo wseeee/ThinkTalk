@@ -1,0 +1,517 @@
+syntax = "v1"
+
+type (
+	Token {
+		AccessToken  string `json:"access_token"`
+		AccessExpire int64  `json:"access_expire"`
+	}
+	RegisterRequest {
+		Name             string `json:"name"`
+		Mobile           string `json:"mobile"`
+		Password         string `json:"password"`
+		VerificationCode string `json:"verification_code"`
+	}
+	RegisterResponse {
+		UserId int64 `json:"user_id"`
+		Token  Token `json:"token"`
+	}
+	VerificationRequest {
+		Mobile string `json:"mobile"`
+	}
+	VerificationResponse {}
+	LoginRequest {
+		Mobile           string `json:"mobile"`
+		VerificationCode string `json:"verification_code,optional"`
+		Password         string `json:"password,optional"`
+	}
+	LoginResponse {
+		UserId int64 `json:"userId"`
+		Token  Token `json:"token"`
+	}
+	UserInfoResponse {
+		UserId   int64  `json:"user_id"`
+		Username string `json:"username"`
+		Avatar   string `json:"avatar"`
+	}
+
+	// 点赞模块
+	ThumbupRequest {
+		BizId    string `json:"biz_id"`
+		ObjId    int64  `json:"obj_id"`
+		LikeType int32  `json:"like_type"`
+	}
+	ThumbupResponse {
+		BizId      string `json:"biz_id"`
+		ObjId      int64  `json:"obj_id"`
+		LikeNum    int64  `json:"like_num"`
+		DislikeNum int64  `json:"dislike_num"`
+	}
+	IsThumbupRequest {
+		BizId    string `json:"biz_id"`
+		TargetId int64  `json:"target_id"`
+	}
+	IsThumbupResponse {
+		LikeType    int32 `json:"like_type"`
+		ThumbupTime int64 `json:"thumbup_time"`
+	}
+
+	// 关注模块
+	FollowRequest {
+		FollowedUserId int64 `json:"followed_user_id"`
+	}
+	FollowResponse {}
+	UnfollowRequest {
+		FollowedUserId int64 `json:"followed_user_id"`
+	}
+	UnfollowResponse {}
+	FollowListRequest {
+		Cursor   int64 `form:"cursor"`
+		PageSize int64 `form:"page_size"`
+	}
+	FollowItem {
+		Id             int64 `json:"id"`
+		FollowedUserId int64 `json:"followed_user_id"`
+		CreateTime     int64 `json:"create_time"`
+		FansCount      int64 `json:"fans_count"`
+	}
+	FollowListResponse {
+		Items  []FollowItem `json:"items"`
+		Cursor int64        `json:"cursor"`
+		IsEnd  bool         `json:"is_end"`
+	}
+	FansListRequest {
+		Cursor   int64 `form:"cursor"`
+		PageSize int64 `form:"page_size"`
+	}
+	FansListResponse {
+		Items  []FollowItem `json:"items"`
+		Cursor int64        `json:"cursor"`
+		IsEnd  bool         `json:"is_end"`
+	}
+
+	// 消息通知
+	NotificationRequest {
+		NotifType int32 `form:"notif_type"`
+		Cursor    int64 `form:"cursor"`
+		PageSize  int64 `form:"page_size"`
+	}
+	NotificationItem {
+		Id            int64  `json:"id"`
+		Type          int32  `json:"type"`
+		Title         string `json:"title"`
+		Content       string `json:"content"`
+		IsRead        bool   `json:"is_read"`
+		TriggerUserId int64  `json:"trigger_user_id"`
+		RefId         int64  `json:"ref_id"`
+		CreateTime    int64  `json:"create_time"`
+	}
+	NotificationResponse {
+		Items  []NotificationItem `json:"items"`
+		Cursor int64              `json:"cursor"`
+		IsEnd  bool               `json:"is_end"`
+	}
+	UnreadCountResponse {
+		Total      int64           `json:"total"`
+		TypeCounts map[int32]int64 `json:"type_counts"`
+	}
+	MarkReadRequest {
+		NotificationId int64 `json:"notification_id"`
+	}
+	MarkReadResponse {}
+	MarkAllReadRequest {
+		NotifType int32 `json:"notif_type"`
+	}
+
+	// 收藏模块
+	ConcernedAddRequest {
+		BizId string `json:"biz_id"`
+		ObjId int64  `json:"obj_id"`
+	}
+	ConcernedAddResponse {}
+	ConcernedCancelRequest {
+		BizId string `json:"biz_id"`
+		ObjId int64  `json:"obj_id"`
+	}
+	ConcernedCancelResponse {}
+	ConcernedCheckRequest {
+		BizId string `form:"biz_id"`
+		ObjId int64  `form:"obj_id"`
+	}
+	ConcernedCheckResponse {
+		IsConcerned bool `json:"is_concerned"`
+	}
+	ConcernedListRequest {
+		BizId    string `form:"biz_id"`
+		Cursor   int64  `form:"cursor"`
+		PageSize int64  `form:"page_size"`
+	}
+	ConcernedItem {
+		Id         int64  `json:"id"`
+		BizId      string `json:"biz_id"`
+		ObjId      int64  `json:"obj_id"`
+		CreateTime int64  `json:"create_time"`
+	}
+	ConcernedListResponse {
+		Items  []ConcernedItem `json:"items"`
+		Cursor int64           `json:"cursor"`
+		IsEnd  bool            `json:"is_end"`
+	}
+	ConcernedCountRequest {
+		BizId string `form:"biz_id"`
+		ObjId int64  `form:"obj_id"`
+	}
+	ConcernedCountResponse {
+		ConcernedNum int64 `json:"concerned_num"`
+	}
+
+	// 会员模块
+	MemberInfoResponse {
+		UserId     int64  `json:"user_id"`
+		Level      int32  `json:"level"`
+		LevelName  string `json:"level_name"`
+		ExpireTime int64  `json:"expire_time"`
+		Status     int32  `json:"status"`
+	}
+	MemberRightRequest {
+		RightKey string `form:"right_key"`
+	}
+	MemberRightResponse {
+		HasRight bool  `json:"has_right"`
+		Level    int32 `json:"level"`
+	}
+	UpgradeMemberRequest {
+		Level         int32  `json:"level"`
+		DurationDays  int32  `json:"duration_days"`
+		TransactionId string `json:"transaction_id"`
+		Amount        int64  `json:"amount"`
+		PayChannel    string `json:"pay_channel"`
+	}
+	UpgradeMemberResponse {}
+	MemberOrderListRequest {
+		Cursor   int64 `form:"cursor"`
+		PageSize int64 `form:"page_size"`
+	}
+	MemberOrderItem {
+		Id           int64  `json:"id"`
+		UserId       int64  `json:"user_id"`
+		Level        int32  `json:"level"`
+		DurationDays int32  `json:"duration_days"`
+		Amount       int64  `json:"amount"`
+		PayChannel   string `json:"pay_channel"`
+		Status       int32  `json:"status"`
+		CreateTime   int64  `json:"create_time"`
+	}
+	MemberOrderListResponse {
+		Items  []MemberOrderItem `json:"items"`
+		Cursor int64             `json:"cursor"`
+		IsEnd  bool              `json:"is_end"`
+	}
+
+	// 标签模块
+	TagCreateRequest {
+		TagName string `json:"tag_name"`
+		TagDesc string `json:"tag_desc"`
+	}
+	TagCreateResponse {
+		TagId int64 `json:"tag_id"`
+	}
+	TagUpdateRequest {
+		TagId   int64  `json:"tag_id"`
+		TagName string `json:"tag_name"`
+		TagDesc string `json:"tag_desc"`
+	}
+	TagUpdateResponse {}
+	TagDeleteRequest {
+		TagId int64 `json:"tag_id"`
+	}
+	TagDeleteResponse {}
+	TagDetailRequest {
+		TagId int64 `form:"tag_id"`
+	}
+	TagItem {
+		TagId         int64  `json:"tag_id"`
+		TagName       string `json:"tag_name"`
+		TagDesc       string `json:"tag_desc"`
+		ResourceCount int64  `json:"resource_count"`
+		CreateTime    int64  `json:"create_time"`
+	}
+	TagListRequest {
+		Cursor   int64 `form:"cursor"`
+		PageSize int64 `form:"page_size"`
+	}
+	TagListResponse {
+		Items  []TagItem `json:"items"`
+		Cursor int64     `json:"cursor"`
+		IsEnd  bool      `json:"is_end"`
+	}
+	HotTagsRequest {
+		Limit int32 `form:"limit"`
+	}
+	HotTagsResponse {
+		Items []TagItem `json:"items"`
+	}
+	TagResourceRequest {
+		BizId    string `json:"biz_id"`
+		TargetId int64  `json:"target_id"`
+		TagId    int64  `json:"tag_id"`
+	}
+	TagResourceResponse {}
+	UntagResourceRequest {
+		BizId    string `json:"biz_id"`
+		TargetId int64  `json:"target_id"`
+		TagId    int64  `json:"tag_id"`
+	}
+	UntagResourceResponse {}
+	ResourcesByTagRequest {
+		TagId    int64  `form:"tag_id"`
+		BizId    string `form:"biz_id,optional"`
+		Cursor   int64  `form:"cursor"`
+		PageSize int64  `form:"page_size"`
+	}
+	ResourceItem {
+		TargetId   int64  `json:"target_id"`
+		BizId      string `json:"biz_id"`
+		CreateTime int64  `json:"create_time"`
+	}
+	ResourcesByTagResponse {
+		Items  []ResourceItem `json:"items"`
+		Cursor int64          `json:"cursor"`
+		IsEnd  bool           `json:"is_end"`
+	}
+	TagsByResourceRequest {
+		BizId    string `form:"biz_id"`
+		TargetId int64  `form:"target_id"`
+	}
+	TagsByResourceResponse {
+		Items []TagItem `json:"items"`
+	}
+
+	// 评论回复模块
+	ReplyCreateRequest {
+		BizId         string `json:"biz_id"`
+		TargetId      int64  `json:"target_id"`
+		BeReplyUserId int64  `json:"be_reply_user_id,omitempty"`
+		ParentId      int64  `json:"parent_id,omitempty"`
+		Content       string `json:"content"`
+	}
+	ReplyCreateResponse {
+		ReplyId int64 `json:"reply_id"`
+	}
+	ReplyDeleteRequest {
+		ReplyId int64 `json:"reply_id"`
+	}
+	ReplyDeleteResponse {}
+	ReplyDetailRequest {
+		ReplyId int64 `form:"reply_id"`
+	}
+	ReplyItem {
+		ReplyId       int64        `json:"reply_id"`
+		BizId         string       `json:"biz_id"`
+		TargetId      int64        `json:"target_id"`
+		ReplyUserId   int64        `json:"reply_user_id"`
+		BeReplyUserId int64        `json:"be_reply_user_id"`
+		ParentId      int64        `json:"parent_id"`
+		Content       string       `json:"content"`
+		LikeNum       int64        `json:"like_num"`
+		CreateTime    int64        `json:"create_time"`
+		SubReplies    []*ReplyItem `json:"sub_replies,omitempty"`
+	}
+	ReplyDetailResponse {
+		Reply ReplyItem `json:"reply"`
+	}
+	ReplyListRequest {
+		BizId    string `form:"biz_id"`
+		TargetId int64  `form:"target_id"`
+		Cursor   int64  `form:"cursor"`
+		PageSize int64  `form:"page_size"`
+		SortType int32  `form:"sort_type,optional"`
+	}
+	ReplyListResponse {
+		Items  []ReplyItem `json:"items"`
+		Cursor int64       `json:"cursor"`
+		IsEnd  bool        `json:"is_end"`
+	}
+	ReplyCountRequest {
+		BizId    string `form:"biz_id"`
+		TargetId int64  `form:"target_id"`
+	}
+	ReplyCountResponse {
+		ReplyNum     int64 `json:"reply_num"`
+		ReplyRootNum int64 `json:"reply_root_num"`
+	}
+)
+
+@server (
+	prefix: /v1
+)
+service applet-api {
+	@handler RegisterHandler
+	post /register (RegisterRequest) returns (RegisterResponse)
+
+	@handler VerificationHandler
+	post /verification (VerificationRequest) returns (VerificationResponse)
+
+	@handler LoginHandler
+	post /login (LoginRequest) returns (LoginResponse)
+}
+
+@server (
+	prefix:    /v1/user
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler UserInfoHandler
+	get /info returns (UserInfoResponse)
+}
+
+@server (
+	prefix:    /v1/like
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler ThumbupHandler
+	post /thumbup (ThumbupRequest) returns (ThumbupResponse)
+
+	@handler IsThumbupHandler
+	get /thumbup (IsThumbupRequest) returns (IsThumbupResponse)
+}
+
+@server (
+	prefix:    /v1/follow
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler FollowHandler
+	post /follow (FollowRequest) returns (FollowResponse)
+
+	@handler UnFollowHandler
+	post /unfollow (UnfollowRequest) returns (UnfollowResponse)
+
+	@handler FollowListHandler
+	get /list (FollowListRequest) returns (FollowListResponse)
+
+	@handler FansListHandler
+	get /fans (FansListRequest) returns (FansListResponse)
+}
+
+@server (
+	prefix:    /v1/concerned
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler ConcernedAddHandler
+	post /add (ConcernedAddRequest) returns (ConcernedAddResponse)
+
+	@handler ConcernedCancelHandler
+	post /cancel (ConcernedCancelRequest) returns (ConcernedCancelResponse)
+
+	@handler ConcernedCheckHandler
+	get /check (ConcernedCheckRequest) returns (ConcernedCheckResponse)
+
+	@handler ConcernedListHandler
+	get /list (ConcernedListRequest) returns (ConcernedListResponse)
+
+	@handler ConcernedCountHandler
+	get /count (ConcernedCountRequest) returns (ConcernedCountResponse)
+}
+
+@server (
+	prefix:    /v1/member
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler MemberInfoHandler
+	get /info returns (MemberInfoResponse)
+
+	@handler MemberRightHandler
+	get /right (MemberRightRequest) returns (MemberRightResponse)
+
+	@handler UpgradeMemberHandler
+	post /upgrade (UpgradeMemberRequest) returns (UpgradeMemberResponse)
+
+	@handler MemberOrderListHandler
+	get /orders (MemberOrderListRequest) returns (MemberOrderListResponse)
+}
+
+@server (
+	prefix:    /v1/message
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler NotificationListHandler
+	get /list (NotificationRequest) returns (NotificationResponse)
+
+	@handler UnreadCountHandler
+	get /unread returns (UnreadCountResponse)
+
+	@handler MarkReadHandler
+	post /read (MarkReadRequest) returns (MarkReadResponse)
+
+	@handler MarkAllReadHandler
+	post /readall (MarkAllReadRequest) returns (MarkReadResponse)
+}
+
+@server (
+	prefix:    /v1/tag
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler TagCreateHandler
+	post /create (TagCreateRequest) returns (TagCreateResponse)
+
+	@handler TagUpdateHandler
+	post /update (TagUpdateRequest) returns (TagUpdateResponse)
+
+	@handler TagDeleteHandler
+	post /delete (TagDeleteRequest) returns (TagDeleteResponse)
+
+	@handler TagDetailHandler
+	get /detail (TagDetailRequest) returns (TagItem)
+
+	@handler TagListHandler
+	get /list (TagListRequest) returns (TagListResponse)
+
+	@handler HotTagsHandler
+	get /hot (HotTagsRequest) returns (HotTagsResponse)
+
+	@handler TagResourceHandler
+	post /resource/add (TagResourceRequest) returns (TagResourceResponse)
+
+	@handler UntagResourceHandler
+	post /resource/remove (UntagResourceRequest) returns (UntagResourceResponse)
+
+	@handler ResourcesByTagHandler
+	get /resource/list (ResourcesByTagRequest) returns (ResourcesByTagResponse)
+
+	@handler TagsByResourceHandler
+	get /resource/tags (TagsByResourceRequest) returns (TagsByResourceResponse)
+}
+
+@server (
+	prefix:    /v1/reply
+	signature: true
+	jwt:       Auth
+)
+service applet-api {
+	@handler ReplyCreateHandler
+	post /create (ReplyCreateRequest) returns (ReplyCreateResponse)
+
+	@handler ReplyDeleteHandler
+	post /delete (ReplyDeleteRequest) returns (ReplyDeleteResponse)
+
+	@handler ReplyDetailHandler
+	get /detail (ReplyDetailRequest) returns (ReplyDetailResponse)
+
+	@handler ReplyListHandler
+	get /list (ReplyListRequest) returns (ReplyListResponse)
+
+	@handler ReplyCountHandler
+	get /count (ReplyCountRequest) returns (ReplyCountResponse)
+}

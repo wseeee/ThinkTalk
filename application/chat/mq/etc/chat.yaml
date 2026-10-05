@@ -1,0 +1,16 @@
+Name: mq
+KqConsumerConf:
+  Name: chat-kq-consumer
+  Brokers:
+    - ${KAFKA_HOST}:${KAFKA_PORT}
+  Group: group-thinktalk-chat
+  Topic: thinktalk_chat
+  Offset: last
+  Consumers: 2
+  Processors: 2
+Mysql:
+  DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_chat?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+CacheRedis:
+    - Host: ${REDIS_HOST}:${REDIS_PORT}
+      Type: node
+      Pass: ${REDIS_PASS}

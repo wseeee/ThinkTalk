@@ -1,0 +1,13 @@
+Name: member.mq
+
+KqConsumerConf:
+  Name: member-kq-consumer
+  Brokers:
+    - ${KAFKA_HOST}:${KAFKA_PORT}
+  Topic: thinktalk_member
+  Group: member-consumer
+  Consumers: 1
+  Processors: 1
+
+Mysql:
+  DataSource: ${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:${DB_PORT})/thinktalk_member?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai

@@ -1,0 +1,13 @@
+Name: qa-api
+Host: 0.0.0.0
+Port: 8890
+Timeout: 10000
+
+Auth:
+    AccessSecret: ${JWT_ACCESS_SECRET}
+    AccessExpire: 604800
+QaRpc:
+    Endpoints:
+        - 127.0.0.1:8090
+    NonBlock: true
+    Timeout: 10000
